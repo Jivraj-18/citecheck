@@ -49,6 +49,12 @@ with sync_playwright() as p:
             for b in page.evaluate("window.__bindings"):
                 if b["value"] is None or not b["text"].strip():
                     problems.append(f"binding {b['path']} is empty")
+            computed = page.evaluate("window.__economicsDefault")
+            for dataset, per_model in results["economics"].items():
+                for model, expected in per_model["per_model"].items():
+                    got = computed[dataset][model]
+                    if abs(got - expected["total_usd"]) > 1e-4:
+                        problems.append(f"calculator {dataset}/{model}: page {got:.4f} != data {expected['total_usd']:.4f}")
             rows = page.locator("#model-table tbody tr").count()
             if rows != len(results["models"]):
                 problems.append(f"table has {rows} rows, data has {len(results['models'])} models")

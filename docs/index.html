@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Can AI Check Citations?</title>
-<meta name="description" content="Which LLM can tell whether a citation supports the claim it is attached to, how reliably, and at what cost per manuscript.">
+<meta name="description" content="Which LLM can tell whether a citation supports the claim it is attached to, how reliably, and what it really costs per paper once editor time is counted.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,61 +14,120 @@
   <p class="kicker">A data story about citations, LLMs and cost</p>
   <h1>Can an AI model tell whether a citation supports its claim?</h1>
   <p class="dek" id="answer">
-    On expert-labelled biomedical claims, <strong data-bind="recommendation.scifact.name" data-format="name"></strong>
-    came within <span data-bind="recommendation.scifact.tolerance" data-format="points"></span> of the highest-scoring
-    model in our test (<span data-bind="recommendation.scifact.best_name" data-format="name"></span>)<span
-    data-show="recommendation.scifact.within_margin_of_error">, a gap within the margin of error,</span> at
-    <strong data-bind="recommendation.scifact.cost_per_1000_usd" data-format="usd"></strong> per 1,000 checks.
-    On machine-learning citations (real ones, and the same sentences with a wrong reference swapped in),
-    <strong data-bind="recommendation.arxiv.name" data-format="name"></strong>
-    came within <span data-bind="recommendation.arxiv.tolerance" data-format="points"></span> of the highest scorer,
-    <span data-bind="recommendation.arxiv.best_name" data-format="name"></span><span
-    data-show="recommendation.arxiv.within_margin_of_error"> (again within the margin of error)</span>, at
-    <strong data-bind="recommendation.arxiv.cost_per_1000_usd" data-format="usd"></strong> per 1,000 checks,
-    about <strong data-bind="recommendation.arxiv.cost_per_manuscript_usd" data-format="usd"></strong> to screen
-    a typical paper.
-    <span data-show="leading_family_differs_by_dataset">The top scorer came from a different model family on each
-    kind of citation.</span>
+    I had four AI models check <span data-bind="datasets.scifact.n" data-format="int"></span> biomedical claims and
+    <span data-bind="datasets.arxiv.items" data-format="int"></span> machine-learning citations. Running them costs
+    <span data-bind="model_cost_per_paper_range" data-format="centsrange"></span> per paper, but they flag
+    <span data-bind="false_alarms_per_paper_overall" data-format="intrange"></span> correct citations per paper, and an
+    editor's time on those costs far more. Counting that time, the best value is
+    <strong data-bind="economics.scifact.best_total_model" data-format="name2"></strong> for biomedical claims and
+    <strong data-bind="economics.arxiv.best_total_model" data-format="name2"></strong> for machine-learning papers.
+    <span data-show="tradeoff_in_both_datasets">The catch: they let more wrong citations through than the most
+    cautious models. On biomedical claims,
+    <span data-bind="economics.scifact.best_total_model" data-format="name2"></span> missed
+    <span data-bind="economics.scifact.best_total_miss_rate" data-format="pct"></span> against
+    <span data-bind="economics.scifact.fewest_misses_rate" data-format="pct"></span> for
+    <span data-bind="economics.scifact.fewest_misses_model" data-format="name2"></span>; on machine-learning papers,
+    <span data-bind="economics.arxiv.best_total_model" data-format="name2"></span> missed
+    <span data-bind="economics.arxiv.best_total_miss_rate" data-format="pct"></span> against
+    <span data-bind="economics.arxiv.fewest_misses_rate" data-format="pct"></span> for
+    <span data-bind="economics.arxiv.fewest_misses_model" data-format="name2"></span>. The cautious models flag more
+    correct citations in exchange.</span>
   </p>
 </header>
 
 <section>
-  <h2>Fake references are already being counted. Wrong citations are not.</h2>
+  <h2>Does paying more save editor time?</h2>
   <p>
-    Language models make up references, and audits now count them at scale: a 2026 audit of
-    2.5 million biomedical papers found fabricated references rising about six-fold in two years
-    (<a href="https://appliedsymbioticintelligence.substack.com/p/six-times-the-rate-how-ai-is-corrupting">summary</a>),
-    and <a href="https://arxiv.org/abs/2607.00738">Phantom References</a> found them in roughly 1 in 20
-    accepted NeurIPS 2025 papers.
+    The models cost a few cents per paper. The real cost is an editor checking citations a model flagged that were
+    fine. Set how long one flag takes and what an hour of editor time costs. The starting values are my assumptions,
+    not measurements.
   </p>
-  <p>
-    Those checks ask whether a reference <em>exists</em>. They cannot catch a real paper cited for something
-    it never said. That needs a reader, and the question for anyone screening manuscripts is whether a model
-    can be that reader: which one, how often it is right, and what it costs.
+  <form class="calc" id="calc" onsubmit="return false">
+    <fieldset class="calc-field">
+      <legend>Papers</legend>
+      <label><input type="radio" name="dataset" value="arxiv" checked> Machine learning</label>
+      <label><input type="radio" name="dataset" value="scifact"> Biomedical</label>
+    </fieldset>
+    <label class="calc-field">Minutes per flag <output id="minutes-out"></output>
+      <input type="range" id="minutes" min="0.25" max="15" step="0.25"></label>
+    <label class="calc-field">Editor cost per hour <output id="rate-out"></output>
+      <input type="range" id="rate" min="10" max="200" step="5"></label>
+  </form>
+  <div class="bars" id="bars" aria-live="polite"></div>
+  <p class="calc-summary" id="calc-summary"></p>
+  <p class="note">
+    False alarms per paper = the model's false-alarm rate × <span data-bind="datasets.arxiv.citations_per_paper_median"
+    data-format="int"></span> checked citations (the median per arXiv paper here). Missed wrong citations are not
+    priced, because their cost depends on what slips into print.
   </p>
 </section>
 
 <section>
-  <h2>Accuracy against cost</h2>
+  <h2>Where they fail</h2>
   <p>
-    Each model judged <span data-bind="datasets.scifact.n" data-format="int"></span> expert-labelled claims
-    from SciFact (supports, contradicts, or not enough information, judged from the cited abstract) and
-    <span data-bind="datasets.arxiv.items" data-format="int"></span> citations from
-    <span data-bind="datasets.arxiv.papers" data-format="int"></span> recent arXiv machine-learning papers:
-    each real citation, and the same sentence with a different reference from the same paper swapped in.
-    Points on the line are the best accuracy available at their price.
+    A screening model can fail two ways: say a wrong citation is fine (a miss), or flag a correct one (a false alarm).
+    On the machine-learning papers almost every failure is a false alarm; the models missed only
+    <span data-bind="miss_rate_range.arxiv" data-format="pctrange"></span> of the wrong citations. On the biomedical
+    claims they missed more, <span data-bind="miss_rate_range.scifact" data-format="pctrange"></span>, and the models that
+    miss least flag the most.
+  </p>
+  <div class="table-scroll">
+    <table id="error-table">
+      <thead>
+        <tr><th scope="col" rowspan="2">Model</th>
+          <th scope="colgroup" colspan="2" class="num">Machine-learning papers</th>
+          <th scope="colgroup" colspan="2" class="num">Biomedical claims</th></tr>
+        <tr><th scope="col" class="num">Wrong ones missed</th><th scope="col" class="num">Correct ones flagged</th>
+          <th scope="col" class="num">Wrong ones missed</th><th scope="col" class="num">Correct ones flagged</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p>
+    On the biomedical claims, the most common mistake was calling a claim
+    <em data-bind="scifact_confusions.0.predicted" data-format="label"></em> when the experts said
+    <em data-bind="scifact_confusions.0.gold" data-format="label"></em>
+    (<span data-bind="scifact_confusions.0.count" data-format="int"></span> times across the four models): the models
+    read more into abstracts than is there.
+  </p>
+  <p class="note">
+    The machine-learning "wrong" citations are swapped-in references, which are easier to catch than real mistakes.
+    A few "correct" citations turned out to be unsupported (below), so false-alarm rates are slightly overstated.
+  </p>
+</section>
+
+<section>
+  <h2>The hardest cases</h2>
+  <p>
+    <span data-bind="hard_cases.all_models_wrong.scifact" data-format="int"></span> biomedical claims and
+    <span data-bind="hard_cases.all_models_wrong.arxiv" data-format="int"></span> machine-learning citations fooled
+    every model. A sample, with what the models said and why:
+  </p>
+  <div class="table-scroll">
+    <table id="hard-table">
+      <thead><tr><th scope="col">Claim</th><th scope="col">Correct answer</th><th scope="col">What the models said</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Accuracy and price</h2>
+  <p>
+    Plain accuracy ranks the models differently from the editor-time view above, because it counts both kinds of
+    mistake the same. Points on the line are the best accuracy available at their price.
   </p>
   <div class="charts">
     <figure class="chart-card">
       <figcaption>
-        <strong>Expert-labelled claims (SciFact)</strong>
-        <span>Accuracy, 3 classes, with 95% bootstrap intervals</span>
+        <strong>Biomedical claims (SciFact, expert labels)</strong>
+        <span>Accuracy over 3 answers, with 95% bootstrap intervals</span>
       </figcaption>
       <div class="chart" id="chart-scifact" role="img"></div>
     </figure>
     <figure class="chart-card">
       <figcaption>
-        <strong>Real vs. swapped arXiv citations</strong>
+        <strong>Machine-learning citations (real vs. swapped)</strong>
         <span>Accuracy, supported vs. not, with 95% bootstrap intervals</span>
       </figcaption>
       <div class="chart" id="chart-arxiv" role="img"></div>
@@ -77,17 +136,14 @@
   <div class="legend" id="legend" aria-hidden="true"></div>
   <p class="chart-summary" id="chart-summary"></p>
   <p class="note" id="refusal-note" hidden></p>
-  <p class="note">
-    Not tested: <span data-bind="excluded_models" data-format="excluded"></span>.
-  </p>
-
-  <details class="table-view" open>
+  <p class="note">Not tested: <span data-bind="excluded_models" data-format="excluded"></span>.</p>
+  <details class="table-view">
     <summary>All numbers, per model</summary>
     <div class="table-scroll">
       <table id="model-table">
         <thead><tr>
           <th scope="col">Model</th>
-                    <th scope="col" class="num">SciFact accuracy</th>
+          <th scope="col" class="num">SciFact accuracy</th>
           <th scope="col" class="num">arXiv accuracy</th>
           <th scope="col" class="num">Refusals</th>
           <th scope="col" class="num">Cost per 1,000 checks</th>
@@ -102,17 +158,15 @@
 <section>
   <h2>Is the abstract enough?</h2>
   <p>
-    Abstracts are free and short; full papers are neither. For the real arXiv citations, every model
-    (<span data-bind="verification.panel" data-format="models"></span>) judged each one from the abstract.
-    Where at least <span data-bind="verification.min_votes" data-format="int"></span> of them said the paper
-    did not support the claim, <span data-bind="verification.pdf_readers.0" data-format="name2"></span> read the cited
-    paper in full; where it agreed, <span data-bind="verification.pdf_readers.1" data-format="name2"></span>, from the
-    other model family, read it too.
+    Where at least <span data-bind="verification.min_votes" data-format="int"></span> of the four models flagged a real
+    machine-learning citation from its abstract, <span data-bind="verification.pdf_readers.0" data-format="name2"></span>
+    read the cited paper in full; where it agreed, <span data-bind="verification.pdf_readers.1" data-format="name2"></span>,
+    from the other model family, read it too.
   </p>
   <div class="tiles">
     <div class="tile">
       <span class="tile-value" data-bind="abstract_enough.share" data-format="pct"></span>
-      <span class="tile-label">of real citations the panel could decide from the abstract alone</span>
+      <span class="tile-label">of real citations the models could decide from the abstract alone</span>
     </div>
     <div class="tile">
       <span class="tile-value"><span data-bind="verification.full_text_overturned_to_supported" data-format="int"></span>
@@ -121,65 +175,69 @@
     </div>
     <div class="tile">
       <span class="tile-value" data-bind="verification.fleiss_kappa" data-format="kappa"></span>
-      <span class="tile-label">agreement between the models (Fleiss' kappa;
-        1 is perfect, 0 is chance), over <span data-bind="verification.kappa_items" data-format="int"></span> citations</span>
+      <span class="tile-label">agreement between the models (Fleiss' kappa; 1 is perfect, 0 is chance), over
+        <span data-bind="verification.kappa_items" data-format="int"></span> citations</span>
     </div>
   </div>
+  <p>Reading the full text clears about half the flags, so it is worth doing before an editor sees anything.</p>
 </section>
 
 <section id="examples-section">
-  <h2>Citations that did not hold up</h2>
+  <h2>Citations the cited paper does not support</h2>
   <p>
-    <span data-bind="verification.confirmed_unsupported" data-format="int"></span> real citations were judged
-    not to support their sentence by two full-text readers from different model families. Not all of those are
-    errors, so both models also classified each case:
-    <span data-bind="verification.confirmed_by_category.specific_claim_unsupported" data-format="int"></span>
-    attribute a specific claim the cited paper does not make,
-    <span data-bind="verification.confirmed_by_category.conventional_or_background" data-format="int"></span>
-    are conventional or background citations,
-    <span data-bind="verification.confirmed_by_category.describes_citing_work" data-format="int"></span>
-    describe the citing authors' own work, and the models disagreed on
+    <span data-bind="verification.confirmed_unsupported" data-format="int"></span> real citations were judged not to
+    support their sentence by both full-text readers. Both models also classified each one:
+    <span data-bind="verification.confirmed_by_category.specific_claim_unsupported" data-format="int"></span> attribute a
+    specific claim the cited paper does not make,
+    <span data-bind="verification.confirmed_by_category.conventional_or_background" data-format="int"></span> are
+    conventional or background citations,
+    <span data-bind="verification.confirmed_by_category.describes_citing_work" data-format="int"></span> describe the
+    citing authors' own work, and they disagreed on
     <span data-bind="verification.confirmed_by_category.disagreement" data-format="int"></span>.
-    The examples below come only from the first group. They are model judgments, not expert review, and say
-    nothing about how common such citations are.
+    The examples below come from the first group. They are model judgments, not expert review.
   </p>
   <div id="examples"></div>
-</section>
-
-<section>
-  <h2>How we checked</h2>
-  <ul>
-    <li><strong>SciFact</strong> (Allen AI, <a href="https://github.com/allenai/scifact">CC BY-NC 2.0</a>):
-      expert-written claims derived from citation sentences, each paired with a cited abstract and an expert label.
-      We sampled <span data-bind="datasets.scifact.labels.supports" data-format="int"></span> claim–abstract items
-      labelled supports, <span data-bind="datasets.scifact.labels.contradicts" data-format="int"></span> labelled
-      contradicts, and <span data-bind="datasets.scifact.labels.not_enough_info" data-format="int"></span> labelled
-      not enough information.</li>
-    <li><strong>arXiv</strong>: recent cs.LG and cs.CL papers. A parser extracted sentences that cite exactly one
-      reference; references were matched to arXiv records. One real and one swapped item per paper.</li>
-    <li><strong>Models</strong> were called through each provider's API with identical prompts and structured
-      output. Costs are list prices applied to the tokens each call reported, counting reasoning tokens.</li>
-    <li><strong>Verification</strong> was done by models, not people: agreement across all models, then
-      full-text reads by two models from different families.</li>
-    <li><strong>Data preparation</strong> was spot-checked by a model as well: of
-      <span data-bind="dataprep_checks.extraction_checked" data-format="int"></span> extracted sentences compared
-      with their LaTeX source, <span data-bind="dataprep_checks.extraction_faithful" data-format="int"></span> were
-      faithful; of <span data-bind="dataprep_checks.resolution_checked" data-format="int"></span> matched references,
-      <span data-bind="dataprep_checks.resolution_same_work" data-format="int"></span> were the same work as the
-      bibliography entry.</li>
-  </ul>
 </section>
 
 <section>
   <h2>What this does not show</h2>
   <ul>
     <li>How common unsupported citations are. The sample was not designed to measure that.</li>
-    <li>Expert-level verification of the arXiv examples. They were checked by models reading full text.</li>
-    <li>That results transfer across fields. SciFact is biomedical; the arXiv set is machine learning.
-      They are reported separately.</li>
-    <li>Performance on real mistakes. Swapped citations are easier to catch than the subtle errors
-      authors actually make.</li>
+    <li>Expert-level verification of the machine-learning examples. Models checked them by reading the full text.</li>
+    <li>That results transfer across fields. SciFact is biomedical; the arXiv set is machine learning.</li>
+    <li>Performance on real mistakes. Swapped citations are easier to catch than the errors authors actually make.</li>
+    <li>A fair sample of all citations. The machine-learning set leans toward citations of arXiv papers:
+      <span data-bind="datasets.arxiv.resolved_by_arxiv_id_share" data-format="pct"></span> of its references were
+      matched by arXiv id.</li>
   </ul>
+  <details>
+    <summary>How I checked</summary>
+    <ul>
+      <li><strong>SciFact</strong> (Allen AI, <a href="https://github.com/allenai/scifact">CC BY-NC 2.0</a>):
+        expert-written claims derived from citation sentences, each paired with a cited abstract and an expert label.
+        I sampled <span data-bind="datasets.scifact.labels.supports" data-format="int"></span> items labelled supports,
+        <span data-bind="datasets.scifact.labels.contradicts" data-format="int"></span> labelled contradicts, and
+        <span data-bind="datasets.scifact.labels.not_enough_info" data-format="int"></span> labelled not enough
+        information.</li>
+      <li><strong>arXiv</strong>: <span data-bind="datasets.arxiv.papers" data-format="int"></span> recent cs.LG and
+        cs.CL papers. A parser extracted sentences that cite exactly one reference; references were matched to arXiv
+        records. One real and one swapped item per paper.</li>
+      <li><strong>Models</strong> were called through each provider's API with identical prompts and structured
+        output. Costs are list prices applied to the tokens each call reported, counting reasoning tokens.</li>
+      <li><strong>Verification</strong> was done by models, not people: agreement across all four models, then
+        full-text reads by two models from different families.</li>
+      <li><strong>Data preparation</strong> was spot-checked by a model: of
+        <span data-bind="dataprep_checks.extraction_checked" data-format="int"></span> extracted sentences compared with
+        their LaTeX source, <span data-bind="dataprep_checks.extraction_faithful" data-format="int"></span> were
+        faithful; of <span data-bind="dataprep_checks.resolution_checked" data-format="int"></span> matched references,
+        <span data-bind="dataprep_checks.resolution_same_work" data-format="int"></span> were the same work as the
+        bibliography entry.</li>
+      <li><strong>Context</strong>: fake references are already counted at scale (a
+        <a href="https://appliedsymbioticintelligence.substack.com/p/six-times-the-rate-how-ai-is-corrupting">2026
+        audit</a> of 2.5 million biomedical papers; <a href="https://arxiv.org/abs/2607.00738">Phantom References</a>
+        on top ML venues). Those checks ask whether a reference exists, not whether it supports the claim.</li>
+    </ul>
+  </details>
 </section>
 
 <footer>

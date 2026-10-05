@@ -54,6 +54,48 @@ for dataset in ("scifact", "arxiv"):
 family = lambda model_id: model_id.split("/")[0]
 leaders_differ = family(recommendations["scifact"]["best_model"]) != family(recommendations["arxiv"]["best_model"])
 
+# ---- where models fail, and whether paying more saves editor time
+ASSUMPTIONS = {"minutes_per_flag": 3, "editor_usd_per_hour": 40,
+               "note": "Assumptions, not measurements: how long an editor takes to clear one flagged citation, "
+                       "and what an hour of editor time costs. Readers can change both on the page."}
+for s_ in summaries:
+    s_["error_profile"] = {d: report.error_profile(rows, items, s_["model"], d) for d in ("scifact", "arxiv")}
+economics = {}
+for dataset in ("scifact", "arxiv"):
+    per_model = {s_["model"]: report.cost_per_paper(s_["cost_per_manuscript_usd"],
+                                                     s_["error_profile"][dataset]["false_alarm_rate"],
+                                                     citations_per_paper, ASSUMPTIONS["minutes_per_flag"],
+                                                     ASSUMPTIONS["editor_usd_per_hour"]) for s_ in summaries}
+    cheapest = min(summaries, key=lambda s_: s_["cost_per_manuscript_usd"])["model"]
+    best_total = min(per_model, key=lambda m: per_model[m]["total_usd"])
+    fewest_alarms = min(per_model, key=lambda m: per_model[m]["false_alarms"])
+    economics[dataset] = {
+        "per_model": per_model, "cheapest_model": cheapest, "best_total_model": best_total,
+        "fewest_false_alarms_model": fewest_alarms, "paying_more_saves": best_total != cheapest,
+        "break_even_minutes": report.break_even_minutes(
+            per_model[fewest_alarms]["model_usd"], per_model[fewest_alarms]["false_alarms"],
+            per_model[cheapest]["model_usd"], per_model[cheapest]["false_alarms"], ASSUMPTIONS["editor_usd_per_hour"]),
+        "editor_minutes_saved_vs_cheapest": per_model[cheapest]["editor_minutes"] - per_model[best_total]["editor_minutes"],
+    }
+    fewest_misses = min(summaries, key=lambda s_: (s_["error_profile"][dataset]["miss_rate"],
+                                                   s_["error_profile"][dataset]["false_alarm_rate"]))["model"]
+    rates = {s_["model"]: s_["error_profile"][dataset] for s_ in summaries}
+    economics[dataset].update({
+        "fewest_misses_model": fewest_misses,
+        "fewest_misses_rate": rates[fewest_misses]["miss_rate"],
+        "fewest_misses_false_alarm_rate": rates[fewest_misses]["false_alarm_rate"],
+        "best_total_miss_rate": rates[best_total]["miss_rate"],
+        "best_total_false_alarm_rate": rates[best_total]["false_alarm_rate"],
+        "tradeoff": fewest_misses != best_total
+                    and rates[fewest_misses]["miss_rate"] < rates[best_total]["miss_rate"],
+    })
+    economics[dataset]["break_even_seconds"] = (economics[dataset]["break_even_minutes"] * 60
+                                                if economics[dataset]["break_even_minutes"] is not None else None)
+
+hard = report.hard_cases(rows, items, list(config.MODELS), min_wrong=len(config.MODELS))
+hard_by_dataset = {d: [h for h in hard if h["dataset"] == d] for d in ("scifact", "arxiv")}
+hard_shown = [h for pair in zip(hard_by_dataset["scifact"], hard_by_dataset["arxiv"]) for h in pair][:6]
+
 first, second = config.PDF_READERS
 reads = verification["pdf_reads"]
 read_ok = {i: r for i, r in reads.items() if "verdict" in r[first]}
@@ -76,9 +118,28 @@ results = {
                     "labels": {k: sum(i["dataset"] == "scifact" and i["label"] == k for i in items.values())
                                for k in report.SCIFACT_LABELS}},
         "arxiv": {"papers": len(kept_papers), "items": sum(i["dataset"] == "arxiv" for i in items.values()),
-                  "dropouts": dropouts, "citations_per_paper_median": citations_per_paper},
+                  "dropouts": dropouts, "citations_per_paper_median": citations_per_paper,
+                  "resolved_by_arxiv_id_share": sum(i.get("resolve_method") == "arxiv_id" for i in items.values()
+                                                    if i["dataset"] == "arxiv")
+                                                / sum(i["dataset"] == "arxiv" for i in items.values())},
     },
     "abstract_enough": report.abstract_enough(rows, config.PANEL),
+    "assumptions": ASSUMPTIONS,
+    "economics": economics,
+    "miss_rate_range": {d: [min(s_["error_profile"][d]["miss_rate"] for s_ in summaries),
+                            max(s_["error_profile"][d]["miss_rate"] for s_ in summaries)] for d in ("scifact", "arxiv")},
+    "false_alarms_per_paper_range": {d: [min(v["false_alarms"] for v in economics[d]["per_model"].values()),
+                                         max(v["false_alarms"] for v in economics[d]["per_model"].values())]
+                                     for d in ("scifact", "arxiv")},
+    "false_alarms_per_paper_overall": [min(v["false_alarms"] for e in economics.values() for v in e["per_model"].values()),
+                                       max(v["false_alarms"] for e in economics.values() for v in e["per_model"].values())],
+    "model_cost_per_paper_range": [min(s_["cost_per_manuscript_usd"] for s_ in summaries),
+                                   max(s_["cost_per_manuscript_usd"] for s_ in summaries)],
+    "tradeoff_in_both_datasets": all(e["tradeoff"] for e in economics.values()),
+    "fewest_false_alarms_wins": all(e["best_total_model"] == e["fewest_false_alarms_model"] for e in economics.values()),
+    "scifact_confusions": report.confusions(rows, items, "scifact"),
+    "hard_cases": {"all_models_wrong": {d: len(hard_by_dataset[d]) for d in hard_by_dataset},
+                   "shown": hard_shown},
     "dataprep_checks": {"checker": dataprep["checker"].split(" ")[0],
                         "extraction_checked": dataprep["extraction"]["checked"],
                         "extraction_faithful": dataprep["extraction"]["faithful"],

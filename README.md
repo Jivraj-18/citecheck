@@ -103,9 +103,17 @@ python -m http.server -d docs   # then open http://localhost:8000
 
 ## Results
 
-See the [data story](docs/index.html). In short: on SciFact, Gemini 3.8 Flash
-came within 2 points of the top scorer (Gemini 3.1 Pro) for about a quarter of
-the cost; on the arXiv citations, Claude Haiku 4.5 came within 2 points of the
-top scorer (Claude Sonnet 5.5) at about $1.36 per 1,000 checks. Both gaps are
-within the margin of error. The top scorer came from a different family on each
-dataset. All numbers are in `docs/data/results.json`.
+See the [data story](https://jivraj-18.github.io/citecheck/). In short:
+
+- Running the models costs 2–7 cents per paper, but they flag 1–5 correct
+  citations per paper, and an editor's time on those costs far more.
+- Counting that time (assumed 3 minutes per flag at $40/hour, adjustable on
+  the page), the best value is Claude Haiku 4.5 for biomedical claims and
+  Claude Sonnet 5.5 for machine-learning papers.
+- The trade-off: those models miss more wrong citations (14% and 3%) than the
+  most cautious ones (Gemini 3.1 Pro 4%, Gemini 3.8 Flash 1%), which flag more
+  correct citations.
+- On plain accuracy, the cheap models came within 2 points of the top scorer
+  on each dataset, within the margin of error.
+
+All numbers are in `docs/data/results.json`.

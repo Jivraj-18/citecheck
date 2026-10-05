@@ -20,6 +20,12 @@
     date: (v) => v.slice(0, 10),
     name: (v) => v.replace(/^[^:]+:\s*/, ""),
     name2: (id) => shortName(id),
+    pctrange: ([a, b]) => (Math.round(a * 100) === Math.round(b * 100) ? `${Math.round(a * 100)}%`
+      : `${Math.round(a * 100)}–${Math.round(b * 100)}%`),
+    intrange: ([a, b]) => (Math.round(a) === Math.round(b) ? `${Math.round(a)}` : `${Math.round(a)}–${Math.round(b)}`),
+    centsrange: ([a, b]) => `${Math.round(a * 100)}–${Math.round(b * 100)} cents`,
+    label: (v) => ({ supports: "supported", contradicts: "contradicted", not_enough_info: "not enough information",
+      not_supported: "not supported" }[v] || v),
     price: (v) => `$${+v.toFixed(4)}`,
     models: (ids) => ids.map(shortName).join(", "),
     excluded: (obj) => Object.entries(obj).map(([id, why]) => `${id.split("/")[1]} (${why})`).join("; "),
@@ -220,8 +226,11 @@
     const cited = document.createElement("a");
     cited.href = `https://arxiv.org/abs/${ex.cited.arxiv_id}`; cited.textContent = ex.cited.title;
     meta.append("From ", citing, ", citing ", cited, ".");
-    const reads = document.createElement("div");
+    const reads = document.createElement("details");
     reads.className = "reads";
+    const readsSummary = document.createElement("summary");
+    readsSummary.textContent = "What the full-text readers found";
+    reads.append(readsSummary);
     for (const [model, r] of Object.entries(ex.reads)) {
       const p = document.createElement("p");
       p.style.margin = "0";
@@ -238,5 +247,130 @@
     card.append(claim, meta, reads);
     box.append(card);
   }
+  // 5. where models fail: misses vs false alarms
+  const errBody = document.querySelector("#error-table tbody");
+  const byFalseAlarms = [...models].sort((a, b) => a.error_profile.arxiv.false_alarm_rate - b.error_profile.arxiv.false_alarm_rate);
+  for (const m of byFalseAlarms) {
+    const tr = document.createElement("tr");
+    const name = document.createElement("td");
+    const sw = document.createElement("span"); sw.className = "swatch"; sw.style.background = color(m.model);
+    name.append(sw, document.createTextNode(shortName(m)));
+    tr.append(name);
+    for (const d of ["arxiv", "scifact"]) {
+      const e = m.error_profile[d];
+      for (const [n, total, rate] of [[e.missed, e.wrong_citations, e.miss_rate], [e.false_alarms, e.correct_citations, e.false_alarm_rate]]) {
+        const td = document.createElement("td"); td.className = "num";
+        td.textContent = `${fmt.int(n)} of ${fmt.int(total)} (${fmt.pct(rate)})`;
+        tr.append(td);
+      }
+    }
+    errBody.append(tr);
+  }
+
+  // 6. the hardest cases: every model wrong
+  const order = [...models].sort((a, b) => a.cost_per_1000_usd - b.cost_per_1000_usd).map((m) => m.model);
+  const hardBody = document.querySelector("#hard-table tbody");
+  for (const h of results.hard_cases.shown) {
+    const tr = document.createElement("tr");
+    const claim = document.createElement("td");
+    claim.className = "claim-cell";
+    claim.append(document.createTextNode(h.claim));
+    const src = document.createElement("span"); src.className = "sub";
+    if (h.dataset === "arxiv") {
+      const a = document.createElement("a"); a.href = `https://arxiv.org/abs/${h.paper_id}`; a.textContent = "citing paper";
+      const b = document.createElement("a"); b.href = `https://arxiv.org/abs/${h.cited_arxiv_id}`; b.textContent = h.cited_title;
+      src.append("Machine learning · ", a, " cites ", b, h.item_id.endsWith("/swapped") ? " (swapped in)" : "");
+    } else {
+      src.append(`Biomedical · cited abstract: ${h.cited_title}`);
+    }
+    const why = document.createElement("details");
+    const sum = document.createElement("summary"); sum.textContent = "Why the models said so";
+    why.append(sum);
+    for (const id of order) {
+      const v = h.verdicts[id]; if (!v) continue;
+      const p = document.createElement("p"); p.className = "why";
+      const who = document.createElement("strong"); who.textContent = `${shortName(id)}: `;
+      p.append(who, document.createTextNode(v.rationale));
+      why.append(p);
+    }
+    claim.append(src, why);
+    tr.append(claim);
+    const gold = document.createElement("td"); gold.textContent = fmt.label(h.label); tr.append(gold);
+    // group identical verdicts: "🔴 Haiku, Flash: supported"
+    const groups = {};
+    for (const id of order) {
+      const v = h.verdicts[id]; if (!v) continue;
+      (groups[`${v.correct}|${v.verdict}`] ||= { correct: v.correct, verdict: v.verdict, models: [] }).models.push(shortName(id));
+    }
+    const said = document.createElement("td"); said.className = "verdict";
+    for (const g of Object.values(groups)) {
+      const line = document.createElement("div");
+      const mark = document.createElement("span"); mark.textContent = g.correct ? "🟢 " : "🔴 ";
+      mark.setAttribute("aria-label", g.correct ? "right:" : "wrong:");
+      const who = g.models.length === order.length ? "All four" : g.models.join(", ");
+      line.append(mark, document.createTextNode(`${who}: ${fmt.label(g.verdict)}`));
+      said.append(line);
+    }
+    tr.append(said);
+    hardBody.append(tr);
+  }
+
+  // 7. does paying more save editor time? (same formula as report.cost_per_paper in Python)
+  const citations = results.datasets.arxiv.citations_per_paper_median;
+  const minutesEl = document.getElementById("minutes"), rateEl = document.getElementById("rate");
+  minutesEl.value = results.assumptions.minutes_per_flag;
+  rateEl.value = results.assumptions.editor_usd_per_hour;
+  const costPerPaper = (m, dataset, minutes, rate) => {
+    const falseAlarms = m.error_profile[dataset].false_alarm_rate * citations;
+    const editorMinutes = falseAlarms * minutes;
+    const editorUsd = editorMinutes / 60 * rate;
+    return { model: m, falseAlarms, editorMinutes, editorUsd, total: m.cost_per_manuscript_usd + editorUsd };
+  };
+  function renderCalc() {
+    const dataset = document.querySelector("input[name=dataset]:checked").value;
+    const minutes = +minutesEl.value, rate = +rateEl.value;
+    document.getElementById("minutes-out").textContent = `${minutes} min`;
+    document.getElementById("rate-out").textContent = `$${rate}`;
+    const rowsC = models.map((m) => costPerPaper(m, dataset, minutes, rate)).sort((a, b) => a.total - b.total);
+    const max = Math.max(...rowsC.map((r) => r.total));
+    const bars = document.getElementById("bars");
+    bars.replaceChildren();
+    rowsC.forEach((r, i) => {
+      const row = document.createElement("div"); row.className = "bar-row" + (i === 0 ? " best" : "");
+      const label = document.createElement("span"); label.className = "bar-label"; label.textContent = shortName(r.model);
+      const track = document.createElement("span"); track.className = "bar-track";
+      const fill = document.createElement("span"); fill.className = "bar-fill";
+      fill.style.width = `${Math.max(1, (r.total / max) * 100)}%`; fill.style.background = color(r.model.model);
+      track.append(fill);
+      const value = document.createElement("span"); value.className = "bar-value";
+      value.textContent = `${fmt.usd(r.total)} per paper`;
+      const detail = document.createElement("span"); detail.className = "bar-detail";
+      detail.textContent = `model ${fmt.usd(r.model.cost_per_manuscript_usd)} + editor ${fmt.usd(r.editorUsd)} ` +
+        `(${r.falseAlarms.toFixed(1)} false alarms, ${r.editorMinutes.toFixed(1)} min)`;
+      row.append(label, track, value, detail);
+      bars.append(row);
+    });
+    const best = rowsC[0];
+    const cheapest = [...rowsC].sort((a, b) => a.model.cost_per_manuscript_usd - b.model.cost_per_manuscript_usd)[0];
+    let text = `With these settings, ${shortName(best.model)} costs least overall: ${fmt.usd(best.total)} per paper.`;
+    if (best !== cheapest) {
+      const saved = cheapest.editorMinutes - best.editorMinutes;
+      const breakEven = (best.model.cost_per_manuscript_usd - cheapest.model.cost_per_manuscript_usd) /
+        ((cheapest.falseAlarms - best.falseAlarms) * rate / 60);
+      text += ` It costs more to run than ${shortName(cheapest.model)}, but saves ${saved.toFixed(1)} editor minutes per ` +
+        `paper; that pays off once a flag takes more than ${Math.max(1, Math.round(breakEven * 60))} seconds.`;
+    } else {
+      text += " It is also the cheapest to run, so paying more does not save anything here.";
+    }
+    document.getElementById("calc-summary").textContent = text;
+    return rowsC;
+  }
+  document.getElementById("calc").addEventListener("input", renderCalc);
+  // defaults, exposed for the automated check against docs/data/results.json
+  window.__economicsDefault = Object.fromEntries(["scifact", "arxiv"].map((d) => [d, Object.fromEntries(
+    models.map((m) => { const r = costPerPaper(m, d, results.assumptions.minutes_per_flag, results.assumptions.editor_usd_per_hour);
+      return [m.model, r.total]; }))]));
+  renderCalc();
+
   window.__storyReady = true;  // for the automated page check
 })();

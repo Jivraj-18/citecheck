@@ -69,3 +69,76 @@ def recommendation(summaries: list[dict], tolerance: float = 0.02, dataset: str 
 
 def intervals_overlap(a: list[float], b: list[float]) -> bool:
     return a[0] <= b[1] and b[0] <= a[1]
+
+
+def _is_correct(item: dict, verdict: str) -> bool:
+    if item["dataset"] == "scifact":
+        return verdict == item["label"]
+    return _binary(verdict) == item["label"]
+
+
+def error_profile(rows: list[dict], items: dict[str, dict], model: str, dataset: str) -> dict:
+    """As a screening tool: a citation is 'flagged' unless the model says it is supported.
+    A refusal also needs a human, so it counts as a flag. A false alarm is a flag on a citation
+    whose gold label is 'supports'; a miss is 'supports' on a citation whose gold label is not."""
+    correct = wrong = false_alarms = missed = 0
+    for r in rows:
+        item = items.get(r["item_id"])
+        if r["model"] != model or item is None or item["dataset"] != dataset or not ("verdict" in r or "refused" in r):
+            continue
+        flagged = "refused" in r or r["verdict"] != "supports"
+        if item["label"] == "supports":
+            correct += 1
+            false_alarms += flagged
+        else:
+            wrong += 1
+            missed += not flagged
+    return {"correct_citations": correct, "false_alarms": false_alarms,
+            "false_alarm_rate": false_alarms / correct if correct else None,
+            "wrong_citations": wrong, "missed": missed, "miss_rate": missed / wrong if wrong else None}
+
+
+def hard_cases(rows: list[dict], items: dict[str, dict], models: list[str], min_wrong: int) -> list[dict]:
+    """Items at least `min_wrong` models got wrong, most-missed first."""
+    table: dict[str, dict] = {}
+    for r in rows:
+        if r["model"] in models and "verdict" in r and r["item_id"] in items:
+            item = items[r["item_id"]]
+            table.setdefault(r["item_id"], {})[r["model"]] = {
+                "verdict": r["verdict"], "correct": _is_correct(item, r["verdict"]), "rationale": r.get("rationale", "")}
+    out = []
+    for item_id, verdicts in table.items():
+        wrong = sum(not v["correct"] for v in verdicts.values())
+        if wrong >= min_wrong:
+            item = items[item_id]
+            out.append({"item_id": item_id, "dataset": item["dataset"], "label": item["label"], "claim": item["claim"],
+                        "cited_title": item["cited_title"], "paper_id": item.get("paper_id"),
+                        "cited_arxiv_id": item.get("cited_arxiv_id"), "wrong": wrong,
+                        "verdicts": {m: verdicts[m] for m in models if m in verdicts}})
+    return sorted(out, key=lambda h: (-h["wrong"], h["item_id"]))
+
+
+def cost_per_paper(model_usd: float, false_alarm_rate: float, citations_per_paper: float,
+                   minutes_per_flag: float, editor_usd_per_hour: float) -> dict:
+    false_alarms = false_alarm_rate * citations_per_paper
+    minutes = false_alarms * minutes_per_flag
+    editor_usd = minutes / 60 * editor_usd_per_hour
+    return {"model_usd": model_usd, "false_alarms": round(false_alarms, 6), "editor_minutes": round(minutes, 6),
+            "editor_usd": round(editor_usd, 6), "total_usd": round(model_usd + editor_usd, 6)}
+
+
+def break_even_minutes(pricier_usd: float, pricier_false_alarms: float, cheaper_usd: float,
+                       cheaper_false_alarms: float, editor_usd_per_hour: float) -> float | None:
+    """Minutes per false alarm above which the pricier model's lower false-alarm count makes it cheaper overall."""
+    saved_flags = cheaper_false_alarms - pricier_false_alarms
+    if saved_flags <= 0:
+        return None
+    return (pricier_usd - cheaper_usd) / (saved_flags * editor_usd_per_hour / 60)
+
+
+def confusions(rows: list[dict], items: dict[str, dict], dataset: str) -> list[dict]:
+    """(gold, predicted) mistake counts over all models, most frequent first."""
+    counts = Counter((items[r["item_id"]]["label"], r["verdict"]) for r in rows
+                     if "verdict" in r and items.get(r["item_id"], {}).get("dataset") == dataset
+                     and r["verdict"] != items[r["item_id"]]["label"])
+    return [{"gold": g, "predicted": p, "count": n} for (g, p), n in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))]
