@@ -1,0 +1,611 @@
+{
+ "panel": [
+  "anthropic/claude-sonnet-5.5",
+  "anthropic/claude-haiku-4.5",
+  "google/gemini-3.1-pro-preview",
+  "google/gemini-3.8-flash"
+ ],
+ "fleiss_kappa": 0.6649854093724571,
+ "kappa_items": 300,
+ "flagged_originals": [
+  "arxiv/2609.22494/original",
+  "arxiv/2609.22553/original",
+  "arxiv/2609.22603/original",
+  "arxiv/2609.22697/original",
+  "arxiv/2609.22705/original",
+  "arxiv/2609.22805/original",
+  "arxiv/2609.22904/original",
+  "arxiv/2609.22917/original",
+  "arxiv/2609.23071/original",
+  "arxiv/2609.23231/original",
+  "arxiv/2609.23267/original",
+  "arxiv/2609.23314/original",
+  "arxiv/2609.23320/original",
+  "arxiv/2609.23374/original",
+  "arxiv/2609.23383/original",
+  "arxiv/2609.23385/original",
+  "arxiv/2609.23490/original",
+  "arxiv/2609.23516/original",
+  "arxiv/2609.23587/original",
+  "arxiv/2609.23668/original",
+  "arxiv/2609.23686/original",
+  "arxiv/2609.23688/original",
+  "arxiv/2609.23716/original",
+  "arxiv/2609.23766/original",
+  "arxiv/2609.23789/original",
+  "arxiv/2609.23812/original",
+  "arxiv/2609.23843/original",
+  "arxiv/2609.23875/original",
+  "arxiv/2609.23880/original",
+  "arxiv/2609.23885/original",
+  "arxiv/2609.23886/original",
+  "arxiv/2609.23900/original",
+  "arxiv/2609.23906/original",
+  "arxiv/2609.23907/original",
+  "arxiv/2609.23951/original",
+  "arxiv/2609.25131/original",
+  "arxiv/2609.35813/original",
+  "arxiv/2609.35815/original"
+ ],
+ "possible_label_noise_swapped": [
+  "arxiv/2609.23071/swapped"
+ ],
+ "pdf_reads": {
+  "arxiv/2609.22494/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "Observation 3: Deep reasoning does not inherently yield substantial gains on cultural understanding capability",
+    "page": 8,
+    "confidence": 0.6,
+    "rationale": "The paper finds that improvements along one axis (multilingual data, deep reasoning) do not reliably carry over to cultural understanding. It also finds that models perform inconsistently across cultural dimensions and languages. This fits the claim that improvement in one cultural capability need not transfer to another, though the paper does not frame it in terms of 'cultural capabilities' (CCs).",
+    "cost_usd": 0.115124
+   }
+  },
+  "arxiv/2609.22553/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "However, traditional ITS relies on template-based feedback that poorly adapts to diverse misconceptions (Zerkouk and Chikhaoui, 2025).",
+    "page": 1,
+    "confidence": 0.6,
+    "rationale": "The paper says traditional ITS uses template-based feedback that adapts poorly to diverse misconceptions. That is loosely related to the sentence, but the paper does not say these systems are hard to extend to new problems, and it does not say they cannot scaffold reasoning that departs from a predefined solution path. The paper's own contribution is a KG with multiple valid paths, which is not a claim about the limits of existing ITS.",
+    "cost_usd": 0.129312
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "supports",
+    "quote": "Second, while our knowledge-graph-based metrics enable fine-grained analysis of step-level reasoning, they rely on a predefined solution space and do not capture open-ended or creative reasoning strategies.",
+    "page": 8,
+    "confidence": 0.9,
+    "rationale": "In its Limitations section, the cited paper explicitly states that its knowledge-graph-based approach relies on a predefined solution space and cannot accommodate open-ended or creative reasoning strategies. This directly supports the citing sentence's claim that such systems cannot scaffold reasoning that diverges from a predefined solution path.",
+    "cost_usd": 0.059456
+   }
+  },
+  "arxiv/2609.22603/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "Results presented in this section highlight the difficulties of crowd-sourcing high-quality annotations and the necessity for protocols for improving human evaluation in text summarization.",
+    "page": 9,
+    "confidence": 0.6,
+    "rationale": "The paper shows that crowd-sourced human evaluation is unreliable (low inter-annotator agreement, no correlation with experts) and that expert annotation needs extra rounds to be reliable. It never states that human evaluation is costly at scale, and its emphasis on the difficulty of obtaining reliable human judgments only partly fits the claim 'reliable but costly'.",
+    "cost_usd": 0.11993
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "supports",
+    "quote": "In (Chaganty et al., 2018) the authors investigated using an automatic metric to reduce the cost of human evaluation without introducing bias.",
+    "page": 2,
+    "confidence": 0.9,
+    "rationale": "The cited paper treats human evaluation as the reliable gold standard for evaluating summarization metrics, while explicitly acknowledging that it is costly and requires significant effort to conduct at scale.",
+    "cost_usd": 0.043308
+   }
+  },
+  "arxiv/2609.22697/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "After data cleaning, VoxBox comprises 4.7 million audio files, sourced from 29 open datasets, totaling 102.5k hours of speech data.",
+    "page": 5,
+    "confidence": 0.6,
+    "rationale": "Spark-TTS builds VoxBox from open-source datasets (about 102.5k hours after cleaning) and uses it to train TTS. It does not mention 140K hours or any ASR task, so the specific figure and the ASR/TTS construction are not supported or contradicted. The sentence's 'following the Spark-TTS setting' may only refer to using open-source filtered data.",
+    "cost_usd": 0.142948
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "supports",
+    "quote": "All data sources in VoxBox originate from open-source datasets, ensuring broad accessibility. To enhance data diversity, we collect not only common TTS datasets, but also datasets used for speech emotion recognition. Each audio file in VoxBox is annotated with gender, pitch, and speed. Additionally, we also perform data cleaning on datasets with lower text quality.",
+    "page": 5,
+    "confidence": 0.9,
+    "rationale": "The citing sentence states that it follows the \"Spark-TTS setting\" by using filtered open-source speech data for its tasks. The cited paper supports this, detailing how it trained the Spark-TTS model using VoxBox, a dataset curated from various open-source speech datasets that underwent specific data cleaning and filtering processes.",
+    "cost_usd": 0.053832
+   }
+  },
+  "arxiv/2609.22705/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "All the results presented in this paper are for the Llama 3.1 models, which we will refer to as Llama 3 throughout for brevity.",
+    "page": 1,
+    "confidence": 0.6,
+    "rationale": "The cited paper presents the Llama 3 / 3.1 family of models, so it is a reasonable citation for the model family. It does not mention Llama 3.2 or Ollama and says nothing about local hosting, so it can neither support nor contradict the sentence's specifics.",
+    "cost_usd": 0.57957
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "confidence": 1.0,
+    "rationale": "The cited paper introduces the Llama 3 and Llama 3.1 models. It does not mention the Llama 3.2 model, which was released later, nor does it discuss the citing authors' specific generation setup using Ollama. Therefore, it does not provide enough information to support the statement.",
+    "cost_usd": 0.105712
+   }
+  },
+  "arxiv/2609.22805/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "We retain only the Summary, Strengths, Weaknesses, and Questions sections, as these encode constructive feedback for authors-centric pre-submission support (see Section 2), and exclude rating-based fields that correspond to final decision-making.",
+    "page": 2,
+    "confidence": 0.8,
+    "rationale": "The cited paper (AutoRev) excludes rating-based fields and structures feedback into Summary, Strengths, Weaknesses, and Questions. This matches the sentence's description. The 'varying venue guidelines' motivation is not stated explicitly, but the core attribution is supported.",
+    "cost_usd": 0.1126
+   }
+  },
+  "arxiv/2609.22904/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "Evaluations typically use post-hoc triage notes or EHR data that already contain information accumulated during the encounter rather than the limited inputs available at the moment of triage. This assumption inflates apparent accuracy and conflicts with how triage is performed in practice.",
+    "page": 4,
+    "confidence": 0.85,
+    "rationale": "The survey states that triage evaluations use post-hoc notes or EHR records that already contain information accumulated during the encounter, rather than the limited inputs available at triage time. This matches the claim that records reflect the outcome of the interaction and not the evidence the nurse had during it.",
+    "cost_usd": 0.169866
+   }
+  },
+  "arxiv/2609.22917/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "confidence": 0.8,
+    "rationale": "The paper retrieves k=8 skeleton-based examples and its ablation compares the full method with a random-demonstration baseline. It never tests three retrieved examples and never reports a 10-20 point gain from retrieval. The ablation drop on Spider (87.8 to 66.9 EX) comes from removing retrieval entirely, not from using three examples, so the specific claim is not supported or contradicted.",
+    "cost_usd": 0.06612
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "For hyperparameter settings, we assign k=8, \\alpha=0.9, \\beta=0.5, \\tau=0.6, and \\theta=0.4.",
+    "page": 8,
+    "confidence": 1.0,
+    "rationale": "The cited paper shows that retrieving eight structurally similar examples (k=8) raises execution accuracy by approximately 15 to 22 percentage points compared to the baseline without skeleton retrieval. However, it does not evaluate or mention the performance impact of retrieving specifically three examples.",
+    "cost_usd": 0.031916
+   }
+  },
+  "arxiv/2609.23071/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "Retrieval-augmented language models (Khandelwal et al., 2020; Borgeaud et al., 2022; Izacard et al., 2022b; Yasunaga et al., 2022), in contrast, can retrieve knowledge from an external datastore when needed, potentially reducing hallucination and increasing coverage.",
+    "page": 1,
+    "confidence": 0.5,
+    "rationale": "REPLUG shows that retrieval improves LM perplexity and downstream task performance, and it mentions potentially reducing hallucination. It does not evaluate factual robustness, domain-requirement alignment, or a synergy between training and structured knowledge integration. The sentence's claim is only loosely related, so the paper neither supports nor contradicts it.",
+    "cost_usd": 0.083452
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "supports",
+    "quote": "Retrieval-augmented language models (Khandelwal et al., 2020; Borgeaud et al., 2022; Izacard et al., 2022b; Yasunaga et al., 2022), in contrast, can retrieve knowledge from an external datastore when needed, potentially reducing hallucination and increasing coverage.",
+    "page": 1,
+    "confidence": 0.85,
+    "rationale": "The cited paper discusses how retrieval-augmented language models combine the capabilities of large language models with external knowledge retrieval. It notes that this approach can reduce hallucinations (which aligns with making responses \"factually robust\") and increase knowledge coverage (which aligns with \"contextually aligned with domain requirements\"), thereby supporting the sentence's claim.",
+    "cost_usd": 0.027982
+   }
+  },
+  "arxiv/2609.23231/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "Evaluation is done by finding the nearest neighbor for each sentence in the other language according to cosine similarity and computing the error rate.",
+    "page": 7,
+    "confidence": 0.72,
+    "rationale": "The cited paper introduces the Tatoeba similarity-search evaluation, which retrieves the nearest neighbor of each sentence in the other language and reports the error rate. That is mate-retrieval accuracy (top-1), so it is reasonable to cite it as the source of that metric. The paper does not discuss RRC@K or its corpus-level generalization, but the part attributed to the citation is supported.",
+    "cost_usd": 0.093596
+   }
+  },
+  "arxiv/2609.23267/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "confidence": 0.8,
+    "rationale": "The survey covers multimodal fusion on low-quality data (noisy, incomplete, imbalanced, dynamic) but does not discuss multi-modal entity alignment (MMEA) or embedding optimization for it. It is not clear that it supports the claim about typical MMEA methods, though it neither contradicts it.",
+    "cost_usd": 0.155668
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "confidence": 1.0,
+    "rationale": "The cited paper is a survey on multimodal fusion techniques, with a specific focus on handling low-quality data (such as noisy, incomplete, imbalanced, or dynamic data). It does not mention or discuss MMEA (Multi-Modal Entity Alignment) methods, and therefore cannot support the claim about what typical MMEA methods primarily focus on.",
+    "cost_usd": 0.03456
+   }
+  },
+  "arxiv/2609.23314/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "contradicts",
+    "quote": "We also train the 2B and 9B models with knowledge distillation (Hinton et al., 2015) instead of next token prediction.",
+    "page": 1,
+    "confidence": 0.8,
+    "rationale": "The sentence cites Gemma 2 as an example of a model with native chain-of-thought reasoning, trained with reasoning supervision or explicit thinking tokens. Gemma 2 is a standard decoder-only LLM trained with knowledge distillation and ordinary SFT/RLHF. It has no thinking-token mechanism or reasoning-specific supervision. The paper only mentions CoT as a few-shot evaluation setting for BBH.",
+    "cost_usd": 0.12645
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "confidence": 0.9,
+    "rationale": "The cited paper introduces Gemma 2 and describes its training processes, which include knowledge distillation, supervised fine-tuning (SFT) on synthetic and human-generated data, and reinforcement learning from human feedback (RLHF). However, it does not mention training with \"reasoning supervision\" or \"explicit thinking-token mechanisms,\" nor does it discuss natively supporting chain-of-thought reasoning in those specific terms. Thus, there is not enough information to support the claim.",
+    "cost_usd": 0.041606
+   }
+  },
+  "arxiv/2609.23320/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "TwiBot-22, a comprehensive graph-based Twitter bot detection benchmark that presents the largest dataset to date, provides diversified entities and relations on the Twitter network, and has considerably better annotation quality than existing datasets.",
+    "page": 1,
+    "confidence": 0.8,
+    "rationale": "The TwiBot-22 paper presents a graph-based Twitter bot detection benchmark. It never mentions or discusses \"modality conflict\", so it neither supports nor contradicts the claim that it is the primary benchmark for that problem. Its only multi-modal remark is a future-work note about images and videos.",
+    "cost_usd": 0.159862
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "confidence": 1.0,
+    "rationale": "The cited paper introduces the TwiBot-22 benchmark for graph-based Twitter bot detection but does not mention or evaluate it as a benchmark for \"severe modality conflict\". Therefore, it does not provide enough information to support the claim.",
+    "cost_usd": 0.032596
+   }
+  },
+  "arxiv/2609.23374/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "Others rely on repeated direct interactions with their intended beneficiaries. For example, maternal health programs that send automated messages about exercise and nutrition to enrolled expectant mothers [13].",
+    "page": 1,
+    "confidence": 0.5,
+    "rationale": "The paper describes automated messages as actions and engagement as the outcome, and it notes that beneficiaries' dynamics are non-Markovian and that data per beneficiary is sparse. It does not frame feedback as generally sparse, behavioral, and nonstationary in engagement settings. The support is partial and indirect, so the sentence's general claim is not clearly attributable to this paper.",
+    "cost_usd": 0.060394
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "supports",
+    "quote": "For example, maternal health programs that send automated messages about exercise and nutrition to enrolled expectant mothers [13]. [...] Because TSFs need large amounts of data to fine-tune their many parameters and there is relatively sparse data available per beneficiary, existing approaches train a single model using the combined data from all available beneficiaries.",
+    "page": 1,
+    "confidence": 0.75,
+    "rationale": "The cited paper discusses an engagement setting (maternal health program recommendations) where actions consist of sending automated messages. It explicitly notes that the available behavioral engagement data per beneficiary is relatively sparse and models its temporal, non-Markovian dynamics, which aligns with the sentence's claim that feedback is sparse, behavioral, and nonstationary.",
+    "cost_usd": 0.033594
+   }
+  },
+  "arxiv/2609.23383/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "Then, up to a constant independent of \u03b8, LCFM and LFM are equal. Hence, \u2207\u03b8LFM(\u03b8) = \u2207\u03b8LCFM(\u03b8).",
+    "page": 4,
+    "confidence": 0.6,
+    "rationale": "Theorem 2 and its proof show the CFM loss equals the FM loss up to a constant independent of the parameters \u03b8, which matches a constant term in the conditional flow-matching loss that doesn't depend on the learnable parameters. The paper does not call the constant an 'unoptimizable variance', but the claim of an additive constant independent of the model parameters is consistent with it.",
+    "cost_usd": 0.145336
+   }
+  },
+  "arxiv/2609.23385/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "For each crystal, the dataset consists of 30,000 simulated events per particle type at each of four beam energies.",
+    "page": 7,
+    "confidence": 0.6,
+    "rationale": "The paper describes electron and K0L simulations at 1, 5, 10 and 30 GeV, but the numbers it gives are 30,000 events per particle type per energy, or 140,000 training waveforms per energy point after five-fold resampling. It never states 100,000 electrons and 100,000 kaons at 10 GeV, so the specific counts can't be verified. They are also not clearly contradicted, since the dataset size at 10 GeV is not explicitly given.",
+    "cost_usd": 0.06204
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "supports",
+    "quote": "Both electron and kaon events contribute equally to ensure the training set covers a wide range of Cherenkov and scintillation photon counts representative of realistic detector conditions. With five samples per Monte Carlo event, the baseline dataset contains 140,000 training waveforms, 20,000 validation waveforms, and 40,000 test waveforms per energy point.",
+    "page": 4,
+    "confidence": 0.9,
+    "rationale": "The cited paper describes its baseline dataset as containing 200,000 waveforms in total per energy point (140k training + 20k validation + 40k test), which are split equally between electron and kaon events. This provides the 100,000 samples for each particle type mentioned in the sentence. The evaluation at a fixed 10 GeV beam energy is also confirmed in the subsequent section.",
+    "cost_usd": 0.045664
+   }
+  },
+  "arxiv/2609.23490/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "confidence": 0.85,
+    "rationale": "The KV-PRM paper is about efficient process reward modeling via KV-cache transfer for multi-agent test-time scaling. It does not discuss LLMs as agents executing multi-step workflows through tool use and interaction with users and environments, so it neither supports nor contradicts the claim.",
+    "cost_usd": 0.091542
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "confidence": 1.0,
+    "rationale": "While the cited paper discusses using LLMs in multi-agent systems to execute multi-step workflows (specifically for complex reasoning tasks), it does not discuss or mention tool use, nor interaction with users and environments.",
+    "cost_usd": 0.027792
+   }
+  },
+  "arxiv/2609.23516/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "We propose a practical instantiation that identifies the causal structure via a greedy search guided by the Algorithmic Markov Condition and Minimum Description Length principle.",
+    "page": 1,
+    "confidence": 0.9,
+    "rationale": "The cited paper is the CADYT paper. It describes a greedy graph search over causal structures for continuous-time (ODE-based) dynamical systems, driven by an MDL score. It also gives a theoretical analysis showing the score is a valid regularized log-likelihood score, which matches the sentence's description.",
+    "cost_usd": 0.135838
+   }
+  },
+  "arxiv/2609.23587/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "confidence": 0.85,
+    "rationale": "The sentence describes Mousetrap, a separate attack that injects chaotic transformations into the reasoning chain. The H-CoT paper never mentions Mousetrap and presents a different attack (hijacking CoT by injecting mocked execution-phase thoughts). The only 'chaotic' content is its observation of chaotic multilingual CoTs, which is not Mousetrap, so the paper neither supports nor contradicts the claim.",
+    "cost_usd": 0.222004
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "confidence": 1.0,
+    "rationale": "The cited paper does not mention an attack called \"Mousetrap\". Instead, it introduces a different adversarial attack method called Hijacking Chain-of-Thought (H-CoT).",
+    "cost_usd": 0.053432
+   }
+  },
+  "arxiv/2609.23668/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "Both algorithms that we propose have a complexity of O(m2) per iteration, for m nodes graphs, and they can easily be parallelized.",
+    "page": 6,
+    "confidence": 0.85,
+    "rationale": "The cited paper states that its primal-dual algorithms have O(m^2) complexity per iteration for m-node graphs, which matches the O(p^2) complexity attributed to [CITATION] (p = number of nodes). The comparison to other methods is the citing paper's own framing and does not conflict with this.",
+    "cost_usd": 0.084448
+   }
+  },
+  "arxiv/2609.23686/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "We collected 2-year data from two separated counties in China. To explore the granularity on the LSTF problem, we create separate datasets as {ETTh1, ETTh2} for 1-hour-level and ETTm1 for 15-minute-level.",
+    "page": 5,
+    "confidence": 0.85,
+    "rationale": "The Informer paper introduces and publishes the ETT datasets (ETTh1, ETTh2, ETTm1), so citing it as the source of the ETT datasets is appropriate. ETTm2 is not described in this version, but it is part of the same released ETT collection. The citation covers the ETT datasets and not the other datasets or the experimental settings in the sentence.",
+    "cost_usd": 0.112748
+   }
+  },
+  "arxiv/2609.23688/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "Let F be a class of functions that map X into [a,b]. Assume that there is some r > 0 such that for every f \u2208 F, Var[f(Xi)] \u2264 r. Then, for every x > 0, with probability at least 1 \u2212 e^{\u2212x}, sup_{f\u2208F}(Pf \u2212 Pnf) \u2264 inf_{\u03b1>0}(2(1 + \u03b1)ERnF + sqrt(2rx/n) + (b \u2212 a)(1/3 + 1/\u03b1)x/n)",
+    "page": 8,
+    "confidence": 0.85,
+    "rationale": "Theorem 2.1 of the cited paper is a deviation bound for sup(Pf\u2212Pnf) holding with probability at least 1\u2212e^{\u2212x}, with a free parameter \u03b1 (the 'tuning parameter') and range [a,b]. Setting \u03b1=1 and [a,b]=[\u22121,1] gives the type of bound the sentence describes.",
+    "cost_usd": 0.220134
+   }
+  },
+  "arxiv/2609.23716/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "confidence": 0.8,
+    "rationale": "The paper formalizes chains of LMs as probabilistic programs (\"language model cascades\") and never discusses variance in an initial output being magnified through later LLM stages. The sentence uses \"cascading variance\" in a different sense, so the paper neither supports nor contradicts the claim.",
+    "cost_usd": 0.07252
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "confidence": 1.0,
+    "rationale": "The cited paper introduces the concept of \"language model cascades\" as a probabilistic programming framework for composing multiple interacting language models. However, it does not discuss \"cascading variance\" or the phenomenon of minor variances being magnified as they pass through multiple models.",
+    "cost_usd": 0.02156
+   }
+  },
+  "arxiv/2609.23766/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "we evaluate retrieval as one of three prompting strategies in a controlled comparison rather than as a standalone system; and our focus is the effect of retrieval on calibration, not only on detection accuracy.",
+    "page": 2,
+    "confidence": 0.6,
+    "rationale": "TriCalRAG studies prompting strategy (zero-shot, few-shot, RAG) over labeled incident history, with a focus on calibration. It does not vary the scope of collection or involve live Kubernetes API state. The paper provides no support or contradiction for the claim that it studies scope of collection, which is the citing paper's own variable. At most, it supports the loose notion of a controlled comparison of strategies.",
+    "cost_usd": 0.063164
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "contradicts",
+    "quote": "We evaluate two open-weight models (Qwen2.5-14B, Mistral-Small) under three prompting strategies - zero-shot, few-shot, and retrieval-augmented generation (RAG) over a labeled incident history",
+    "page": 1,
+    "confidence": 0.9,
+    "rationale": "The citing sentence claims that the cited paper studies \"the scope of collection\" as a variable. However, the cited paper explicitly states that its variables are the models, the log datasets, and the prompting strategies (zero-shot, few-shot, and retrieval-augmented generation); it fixes its retrieval scope to the top 3 similar past incidents.",
+    "cost_usd": 0.03027
+   }
+  },
+  "arxiv/2609.23789/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "Condition (15), in particular, rules out conditional distributions with atoms, even when the underlying conditional generator is smooth. For example, consider Y = g(X) + \u03b5, \u03b5 \u223c Bernoulli(1/2), where g : [0, 1]d \u2192 [\u22121/2, 0] is a smooth function.",
+    "page": 13,
+    "confidence": 0.85,
+    "rationale": "The cited paper explicitly gives a counterexample (Bernoulli noise) showing that the Lipschitz condition (15) on the conditional distribution function excludes distributions with atoms. This matches the sentence's claim about the counterexample. The multivariate-response claim is not what the citation is being credited for here.",
+    "cost_usd": 0.180608
+   }
+  },
+  "arxiv/2609.23812/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "The key differences between our sparse dictionary learning algorithm compared to other variants of MOD are: (1) we only do one iteration in the sparse optimization step (14), so we do not let this algorithm converge, (2) we use a significantly larger number of columns in A than the expected ones in G B, and (3) we run the algorithm multiple times using different random initializations",
+    "page": 9,
+    "confidence": 0.6,
+    "rationale": "The cited paper introduces a modified MOD algorithm with a single sparse-coding step (a 'greedy' relaxation) that works from random initialization and finds the exact dictionary accurately. This fits the claim that the cited work presents a simpler MOD variant reproducing similar behavior. The paper never uses the exact term 'greedy MOD', so the match is somewhat loose.",
+    "cost_usd": 0.102324
+   }
+  },
+  "arxiv/2609.23843/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "We then profile each p-th client Cp using the average output of their feature representation given by Eq. 9 and their average loss given by Eq. 10, which are the only data shared to the central server as their representative information and only during the initialization phase.",
+    "page": 6,
+    "confidence": 0.85,
+    "rationale": "The paper states that client feature and loss profiles are shared only during the initialization phase, and the server builds the similarity and quality matrices and the kernel L = QS^TSQ from them. Algorithm 1 computes the kernel and selects the client set G once, before the training rounds, so the kernel is formed once from initialization-time information.",
+    "cost_usd": 0.070742
+   }
+  },
+  "arxiv/2609.23875/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "It has been expanded to allow separate training and evaluation, model saving and checkpointing, faster LSTM support, better logging and WandB integration, asynchronous environment simulation, and additional features for multiagent learning.",
+    "page": 8,
+    "confidence": 0.8,
+    "rationale": "The paper describes PufferLib's throughput-oriented vectorization and a customized CleanRL PPO. It never says that its PPO uses a single epoch or that it favours near-on-policy updates over rollout reuse. It also says nothing about the 25M and 700M transition budgets, so the claim is neither supported nor contradicted.",
+    "cost_usd": 0.055626
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "By design, PufferLib does not include a library of learning algorithm implementations and we have no plans to develop one. Instead, we provide integrations with CleanRL and SB3... With that said, CleanRL is designed to be modified by users, and we do maintain one heavily customized version of CleanRL\u2019s PPO [Schulman et al., 2017] implementation for testing and baselines. It has been expanded to allow separate training and evaluation, model saving and checkpointing, faster LSTM support, better logging and WandB integration, asynchronous environment simulation, and additional features for multiagent learning.",
+    "page": 8,
+    "confidence": 1.0,
+    "rationale": "The cited paper introduces PufferLib and mentions maintaining a customized PPO implementation for testing. However, it does not describe this PPO implementation as being 'single-epoch' or favoring 'stable near-on-policy updates over rollout reuse'. Therefore, the paper does not contain enough information to support this specific claim.",
+    "cost_usd": 0.027874
+   }
+  },
+  "arxiv/2609.23880/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "This metric measures the average overlap between the prediction and ground truth answer. We treat the prediction and ground truth as bags of tokens, and compute their F1.",
+    "page": 7,
+    "confidence": 0.9,
+    "rationale": "SQuAD defines the F1 metric as token-level overlap between the prediction and ground truth answer, treated as bags of tokens. This matches the sentence's description of F1. The precision/recall computation is implied by F1 but not spelled out, which is a minor point.",
+    "cost_usd": 0.061052
+   }
+  },
+  "arxiv/2609.23885/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "While initial procedural annotations covering approximately 205 hours of Versius-500 clinical data are released alongside the dataset, richer labels including instrument state, tissue contact events, and failure modes will be needed to address the fine-contact steps where the model currently struggles the most.",
+    "page": 21,
+    "confidence": 0.93,
+    "rationale": "The cited paper's authors state that GR00T-H struggles most on fine-contact steps (e.g., cutting, tissue contact) and call for richer labels including tissue contact events. This matches the sentence's attribution.",
+    "cost_usd": 0.247542
+   }
+  },
+  "arxiv/2609.23886/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "The architecture of the Qwen3 dense models is similar to Qwen2.5 (Yang et al., 2024b), including using Grouped Query Attention (GQA, Ainslie et al., 2023), SwiGLU (Dauphin et al., 2017), Rotary Positional Embeddings (RoPE, Su et al., 2024), and RMSNorm (Jiang et al., 2023) with pre-normalization.",
+    "page": 3,
+    "confidence": 0.93,
+    "rationale": "The Qwen3 report describes standard full-attention transformer architectures (dense and MoE with GQA). It does not discuss hybrid models that interleave a minority of full-attention layers with linear or other attention, nor any quality recovery from such hybrids, so it neither supports nor contradicts the claim.",
+    "cost_usd": 0.235492
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "confidence": 1.0,
+    "rationale": "The cited paper does not discuss hybrid architectures or interleaving full-attention layers. It focuses on the Qwen3 model series, which utilizes standard dense and Mixture-of-Experts architectures with Grouped Query Attention.",
+    "cost_usd": 0.050234
+   }
+  },
+  "arxiv/2609.23900/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "The target is a pure Gated DeltaNet model, so the speculative runtime manages recurrent linear-attention state rather than Transformer KV-cache suffixes.",
+    "page": 10,
+    "confidence": 0.85,
+    "rationale": "The sentence attributes to the cited paper an evaluation on a pure GDN model. SpecLA states its end-to-end target is a pure Gated DeltaNet model (GDN-1.3B) with no softmax attention, which matches. The remainder of the sentence concerns the citing paper's own serving boundary and is not attributed to the citation.",
+    "cost_usd": 0.101576
+   }
+  },
+  "arxiv/2609.23906/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "SAM exhibited robust but imperfect memory retention, with small regions of overlapping interference in sequential learning tasks.",
+    "page": 1,
+    "confidence": 0.72,
+    "rationale": "KASAM/SAM are Kolmogorov-Arnold-based spline models, and the paper reports that SAM has intrinsic memory retention in sequential learning, with KASAM retaining some memory and retaining more with pseudo-rehearsal. This supports the claim that such models can retain earlier behavior while adapting to new data, although KASAM alone showed only marginal retention and the paper does not use the term KAN.",
+    "cost_usd": 0.154264
+   }
+  },
+  "arxiv/2609.23907/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "we optimize the bound using a slightly modified objective with free bits: a constraint on the minimum amount of information per group of latent variables.",
+    "page": 14,
+    "confidence": 0.9,
+    "rationale": "The IAF paper introduces the free bits objective (Section C.8), which applies a minimum-information constraint per group of latent variables, such as latent feature maps (channels). This matches the 'per-channel free bits' attributed to the citation. The collapse claims in the sentence belong to the citing paper, not to this one.",
+    "cost_usd": 0.092282
+   }
+  },
+  "arxiv/2609.23951/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "This paper introduces a new speech dataset called \u201cLibriTTS-R\u201d designed for text-to-speech (TTS) use. It is derived by applying speech restoration to the LibriTTS corpus, which consists of 585 hours of speech data at 24 kHz sampling rate from 2,456 speakers and the corresponding texts.",
+    "page": 1,
+    "confidence": 0.6,
+    "rationale": "The cited paper introduces LibriTTS-R, a restored multi-speaker TTS corpus derived from LibriSpeech audiobooks. It says nothing about poetry readings or about fine-tuning for poetry prosody. The sentence's description of the dataset as 'standard poetry readings' is not supported, though it does not directly contradict the paper's general description.",
+    "cost_usd": 0.043138
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "contradicts",
+    "quote": "The LibriTTS corpus is one of the largest multi-speaker speech datasets designed for TTS use. This dataset consists of 585 hours of speech data at 24 kHz sampling rate from 2,456 speakers and the corresponding texts. The audio and text materials are derived from the LibriSpeech corpus [22], which has been used for training and evaluating automatic speech recognition systems. Since the original LibriSpeech corpus has several undesired properties for TTS including sampling rate and text normalization issues, the samples in LibriTTS were re-derived from the original materials (MP3 from LibriVox and texts from Project Gutenberg) of LibriSpeech.",
+    "page": 1,
+    "confidence": 0.95,
+    "rationale": "The citing sentence characterizes the cited dataset as a \"dataset of standard poetry readings.\" However, the cited paper describes LibriTTS-R as a general multi-speaker text-to-speech corpus whose audio and text are derived from LibriVox audiobooks and Project Gutenberg texts, not a dataset specifically composed of poetry readings.",
+    "cost_usd": 0.023348
+   }
+  },
+  "arxiv/2609.25131/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "supports",
+    "quote": "Let E \u2208 R^{|V|\u00d7d} be the token embedding matrix and e_m \u2208 R^d the embedding of the mask token m. ... e^i(\u03b1) = e_m + \u03b1 \u2206e^i_t, \u03b1 \u2208 [0, 1], ... A first-order expansion around \u03b1 = 0 gives",
+    "page": 6,
+    "confidence": 0.85,
+    "rationale": "The paper's BoE steering defines its first-order expansion by interpolating from the mask token embedding e_m toward the soft write embedding, so the expansion is anchored at the mask embedding. The claim about a uniform flow not providing one is the citing paper's own comparison, but the attribution to BoE is supported.",
+    "cost_usd": 0.117712
+   }
+  },
+  "arxiv/2609.35813/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "confidence": 0.3,
+    "rationale": "The sentence says the cited work motivates the research question but is not empirical evidence for the comparisons reported in the citing paper. The cited paper is a method and validation paper whose findings are presented as empirical evidence for its own claims, and nothing in it addresses how it should be used by other papers. It neither supports nor contradicts this meta-level characterisation.",
+    "cost_usd": 0.134438
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "confidence": 1.0,
+    "rationale": "The sentence states how the citing authors are using the cited paper (to motivate their research question, rather than as empirical evidence for their comparisons). As this describes the relationship between the two papers from the citing paper's perspective, the cited paper itself contains no information to support or contradict it.",
+    "cost_usd": 0.032904
+   }
+  },
+  "arxiv/2609.35815/original": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "The key assumption is that we also have access to a black-box model f mapping X to predictions Yb = f(X), which we use to impute labels for Xei.",
+    "page": 2,
+    "confidence": 0.85,
+    "rationale": "The PPI++ paper assumes labeled and unlabeled data come from the same distribution (the feature distribution is identical across both datasets). It never discusses MNAR labeling or how PPI would behave under it, so it neither supports nor contradicts the claim.",
+    "cost_usd": 0.160022
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "confidence": 1.0,
+    "rationale": "The cited paper discusses Prediction-Powered Inference (PPI) and formulates the setup as a missing data problem where unlabeled data is missing labels, but it does not mention MNAR (Missing Not At Random) or discuss how PPI performs or falters under MNAR labeling.",
+    "cost_usd": 0.047558
+   }
+  }
+ },
+ "confirmed_unsupported": [
+  "arxiv/2609.22705/original",
+  "arxiv/2609.22917/original",
+  "arxiv/2609.23267/original",
+  "arxiv/2609.23314/original",
+  "arxiv/2609.23320/original",
+  "arxiv/2609.23490/original",
+  "arxiv/2609.23587/original",
+  "arxiv/2609.23716/original",
+  "arxiv/2609.23766/original",
+  "arxiv/2609.23875/original",
+  "arxiv/2609.23886/original",
+  "arxiv/2609.23951/original",
+  "arxiv/2609.35813/original",
+  "arxiv/2609.35815/original"
+ ]
+}

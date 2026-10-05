@@ -1,0 +1,436 @@
+{
+ "checker": "gemini-3.8-flash (gemini route)",
+ "extraction": {
+  "checked": 20,
+  "faithful": 20,
+  "citation_position_correct": 20,
+  "details": [
+   {
+    "item_id": "arxiv/2609.22949/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23516/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23907/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23697/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.22697/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.22734/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23529/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23191/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.22767/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.26822/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23308/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23416/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23376/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23570/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.35807/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23876/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23701/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.22603/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.25130/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23178/original",
+    "faithful": true,
+    "citation_position_correct": true,
+    "problem": ""
+   }
+  ]
+ },
+ "resolution": {
+  "checked": 50,
+  "same_work": 49,
+  "details": [
+   {
+    "item_id": "arxiv/2609.23726/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.25134/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23594/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.22774/swapped",
+    "method": "arxiv_title",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.22553/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23726/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23043/swapped",
+    "method": "arxiv_title",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23460/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23640/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": "none"
+   },
+   {
+    "item_id": "arxiv/2609.35811/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2610.00197/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.22767/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23457/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": "none"
+   },
+   {
+    "item_id": "arxiv/2609.23371/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23697/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2610.00205/swapped",
+    "method": "arxiv_title",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23333/original",
+    "method": "arxiv_title",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23935/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.35814/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": "none"
+   },
+   {
+    "item_id": "arxiv/2609.22934/original",
+    "method": "arxiv_title",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23951/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.22705/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23071/original",
+    "method": "arxiv_id",
+    "same_work": false,
+    "problem": "The bibliography entry appears to be a hallucinated or severely corrupted citation; although it shares the arXiv ID and first part of the title with the matched paper, the authors and subtitle are completely different."
+   },
+   {
+    "item_id": "arxiv/2609.35808/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": "none"
+   },
+   {
+    "item_id": "arxiv/2609.23083/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23892/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23775/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23320/original",
+    "method": "arxiv_title",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.35809/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23716/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.25131/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.25081/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.22796/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.35814/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23885/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23088/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.22697/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23381/original",
+    "method": "arxiv_title",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.26823/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23191/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23194/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23587/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": "none"
+   },
+   {
+    "item_id": "arxiv/2609.23334/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23668/swapped",
+    "method": "arxiv_title",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23457/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.22949/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23088/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23314/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   },
+   {
+    "item_id": "arxiv/2609.23716/swapped",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": "none"
+   },
+   {
+    "item_id": "arxiv/2609.23194/original",
+    "method": "arxiv_id",
+    "same_work": true,
+    "problem": ""
+   }
+  ]
+ }
+}

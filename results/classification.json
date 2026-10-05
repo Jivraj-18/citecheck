@@ -1,0 +1,184 @@
+{
+ "arxiv/2609.22705/original": {
+  "category": "conventional_or_background",
+  "votes": {
+   "anthropic/claude-sonnet-5.5": {
+    "category": "conventional_or_background",
+    "reason": "Citing the Llama 3 Herd of Models paper for a Llama 3.2 model is a conventional pointer to the model family's main paper, and the Ollama hosting detail describes the citing authors' own setup rather than something attributed to the cited paper."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "category": "conventional_or_background",
+    "reason": "The citation serves as a conventional pointer to the main Llama 3 model family paper for a later version (Llama 3.2), while the rest of the sentence describes the citing authors' own setup."
+   }
+  }
+ },
+ "arxiv/2609.22917/original": {
+  "category": "specific_claim_unsupported",
+  "votes": {
+   "anthropic/claude-sonnet-5.5": {
+    "category": "specific_claim_unsupported",
+    "reason": "The sentence attributes a specific finding (three retrieved examples giving a 10-20 point EX gain) to the paper, which uses k=8 and never tests three examples or reports that gain."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "category": "specific_claim_unsupported",
+    "reason": "The sentence attributes a specific finding about retrieving three examples yielding a 10-20 point accuracy gain, but the cited paper only evaluates retrieving eight examples."
+   }
+  }
+ },
+ "arxiv/2609.23314/original": {
+  "category": "specific_claim_unsupported",
+  "votes": {
+   "anthropic/claude-sonnet-5.5": {
+    "category": "specific_claim_unsupported",
+    "reason": "The sentence cites Gemma 2 as a model natively trained with reasoning supervision or thinking tokens, but the paper describes a standard distilled, SFT and RLHF-tuned LLM with no such mechanism."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "category": "specific_claim_unsupported",
+    "reason": "The sentence attributes a specific model property (reasoning supervision or explicit thinking-token mechanisms) to Gemma 2, but the Gemma 2 paper describes a standard language model without those features."
+   }
+  }
+ },
+ "arxiv/2609.23267/original": {
+  "category": "disagreement",
+  "votes": {
+   "anthropic/claude-sonnet-5.5": {
+    "category": "conventional_or_background",
+    "reason": "The sentence is a general background statement about multimodal fusion in MMEA, and the cited survey on multimodal fusion for low-quality data is a loosely related pointer, not a source for any specific MMEA claim."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "category": "specific_claim_unsupported",
+    "reason": "The citing sentence attributes a specific claim about the focus of Multi-Modal Entity Alignment (MMEA) methods to the cited paper, but the cited paper is a survey on multimodal fusion that does not discuss MMEA at all."
+   }
+  }
+ },
+ "arxiv/2609.23320/original": {
+  "category": "disagreement",
+  "votes": {
+   "anthropic/claude-sonnet-5.5": {
+    "category": "describes_citing_work",
+    "reason": "The claim that TwiBot-22 is the primary benchmark for 'severe modality conflict' is the citing authors' own framing of how they use the dataset, which the TwiBot-22 paper (about graph-based bot detection) cannot be expected to state."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "category": "specific_claim_unsupported",
+    "reason": "The citing sentence claims the cited benchmark focuses on \"severe modality conflict,\" but the cited paper does not mention or discuss this concept."
+   }
+  }
+ },
+ "arxiv/2609.23490/original": {
+  "category": "conventional_or_background",
+  "votes": {
+   "anthropic/claude-sonnet-5.5": {
+    "category": "conventional_or_background",
+    "reason": "The sentence is a general background statement about LLM agents executing multi-step workflows, and the cited KV-PRM paper is only loosely related (multi-agent test-time scaling), so it is a conventional pointer rather than a specific claim misattributed to the paper."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "category": "conventional_or_background",
+    "reason": "The citation is used to support a general background statement about the increasing use of LLMs as agents, rather than attributing a specific finding to the cited paper."
+   }
+  }
+ },
+ "arxiv/2609.23716/original": {
+  "category": "specific_claim_unsupported",
+  "votes": {
+   "anthropic/claude-sonnet-5.5": {
+    "category": "specific_claim_unsupported",
+    "reason": "The sentence attributes a specific phenomenon (small output variance being magnified through chained evaluator and optimizer LLMs, called cascading variance) to the cited paper, but Language Model Cascades only formalizes chained LMs as probabilistic programs and never discusses variance amplification."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "category": "specific_claim_unsupported",
+    "reason": "The citing sentence attributes the concept of 'cascading variance' and the magnification of minor variances to the cited paper, but the paper only introduces language model cascades as a framework and does not discuss this variance phenomenon."
+   }
+  }
+ },
+ "arxiv/2609.23587/original": {
+  "category": "specific_claim_unsupported",
+  "votes": {
+   "anthropic/claude-sonnet-5.5": {
+    "category": "specific_claim_unsupported",
+    "reason": "The sentence attributes the Mousetrap attack (chaotic transformations in the reasoning chain) to the cited paper, but that paper presents a different attack, H-CoT, and never mentions Mousetrap, so a different paper was probably meant."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "category": "specific_claim_unsupported",
+    "reason": "The sentence attributes a specific adversarial attack named Mousetrap to the cited paper, but the paper actually introduces a different attack called H-CoT and does not mention Mousetrap."
+   }
+  }
+ },
+ "arxiv/2609.23766/original": {
+  "category": "specific_claim_unsupported",
+  "votes": {
+   "anthropic/claude-sonnet-5.5": {
+    "category": "specific_claim_unsupported",
+    "reason": "The sentence says TriCalRAG studies the scope of collection as its variable, but that paper varies prompting strategy (zero-shot, few-shot, RAG) and models while fixing retrieval to the top 3 similar incidents, so the attributed design is not in it."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "category": "specific_claim_unsupported",
+    "reason": "The citing sentence claims that the cited paper studies \"the scope of collection\" as a variable, but the cited paper actually studies prompting strategies and does not vary the scope of collection."
+   }
+  }
+ },
+ "arxiv/2609.23875/original": {
+  "category": "disagreement",
+  "votes": {
+   "anthropic/claude-sonnet-5.5": {
+    "category": "describes_citing_work",
+    "reason": "The sentence mainly explains the citing authors' own transition budgets for VISTA and the flat LSTM as a consequence of PufferLib's PPO design, which the PufferLib paper cannot be expected to state, so the missing single-epoch detail is not a clear misattribution."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "category": "specific_claim_unsupported",
+    "reason": "The citing sentence attributes specific algorithmic properties, namely a 'single-epoch PPO' that favors 'near-on-policy updates over rollout reuse', to PufferLib, but the cited paper does not contain these details."
+   }
+  }
+ },
+ "arxiv/2609.23886/original": {
+  "category": "specific_claim_unsupported",
+  "votes": {
+   "anthropic/claude-sonnet-5.5": {
+    "category": "specific_claim_unsupported",
+    "reason": "The sentence attributes a specific finding (hybrids with a minority of full-attention layers recovering most of the quality) to the Qwen3 report, which only describes standard full-attention dense and MoE models and contains no such hybrid result."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "category": "specific_claim_unsupported",
+    "reason": "The sentence attributes a specific finding about hybrid attention architectures to the cited paper, but the paper focuses on standard dense and MoE models and does not discuss such hybrids."
+   }
+  }
+ },
+ "arxiv/2609.35813/original": {
+  "category": "describes_citing_work",
+  "votes": {
+   "anthropic/claude-sonnet-5.5": {
+    "category": "describes_citing_work",
+    "reason": "The sentence describes how the citing authors use the cited paper (as motivation, not as empirical evidence for their comparisons), which the cited paper cannot be expected to state."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "category": "describes_citing_work",
+    "reason": "The citing sentence describes how the authors are using the cited work to motivate their own research question, which is a relationship that the cited paper cannot possibly contain or support."
+   }
+  }
+ },
+ "arxiv/2609.35815/original": {
+  "category": "disagreement",
+  "votes": {
+   "anthropic/claude-sonnet-5.5": {
+    "category": "conventional_or_background",
+    "reason": "The sentence is a general background remark that PPI relies on labeled and unlabeled data sharing a distribution (so it should fail under MNAR), and PPI++ is cited as the standard PPI reference even though it never discusses MNAR explicitly."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "category": "specific_claim_unsupported",
+    "reason": "The citing sentence attributes a specific claim about PPI faltering under MNAR labeling to the cited paper, but the cited paper does not mention MNAR or discuss PPI's performance in that context."
+   }
+  }
+ },
+ "arxiv/2609.23951/original": {
+  "category": "disagreement",
+  "votes": {
+   "anthropic/claude-sonnet-5.5": {
+    "category": "describes_citing_work",
+    "reason": "The sentence mainly describes the citing authors' own poetry fine-tuning setup that uses LibriTTS-R, which the dataset paper cannot be expected to state, even though the 'standard poetry readings' label is a loose characterization of a general audiobook corpus."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "category": "specific_claim_unsupported",
+    "reason": "The citing sentence incorrectly describes the cited dataset as consisting of 'standard poetry readings', whereas the cited paper describes it as a general multi-speaker TTS corpus derived from audiobooks."
+   }
+  }
+ }
+}

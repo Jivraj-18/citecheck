@@ -1,0 +1,132 @@
+[
+ {
+  "item_id": "arxiv/2609.23886/original",
+  "claim": "Hybrids that interleave a minority of full-attention layers recover most of the quality [CITATION].",
+  "citing": {
+   "arxiv_id": "2609.23886",
+   "title": "this-that-model-1.0: A typed decision model that decides in 30 ms, for a millionth of a cent"
+  },
+  "cited": {
+   "arxiv_id": "2505.09388",
+   "title": "Qwen3 Technical Report"
+  },
+  "reads": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "The architecture of the Qwen3 dense models is similar to Qwen2.5 (Yang et al., 2024b), including using Grouped Query Attention (GQA, Ainslie et al., 2023), SwiGLU (Dauphin et al., 2017), Rotary Positional Embeddings (RoPE, Su et al., 2024), and RMSNorm (Jiang et al., 2023) with pre-normalization.",
+    "page": 3,
+    "rationale": "The Qwen3 report describes standard full-attention transformer architectures (dense and MoE with GQA). It does not discuss hybrid models that interleave a minority of full-attention layers with linear or other attention, nor any quality recovery from such hybrids, so it neither supports nor contradicts the claim."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "rationale": "The cited paper does not discuss hybrid architectures or interleaving full-attention layers. It focuses on the Qwen3 model series, which utilizes standard dense and Mixture-of-Experts architectures with Grouped Query Attention."
+   }
+  }
+ },
+ {
+  "item_id": "arxiv/2609.23587/original",
+  "claim": "Mousetrap [CITATION] is an adversarial attack that injects chaotic transformations into the reasoning chain to bypass alignment filters.",
+  "citing": {
+   "arxiv_id": "2609.23587",
+   "title": "On the Efficiency-Safety Dilemma in Large Reasoning Models"
+  },
+  "cited": {
+   "arxiv_id": "2502.12893",
+   "title": "H-CoT: Hijacking the Chain-of-Thought Safety Reasoning Mechanism to Jailbreak Large Reasoning Models, Including OpenAI o1/o3, DeepSeek-R1, and Gemini 2.0 Flash Thinking"
+  },
+  "reads": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "rationale": "The sentence describes Mousetrap, a separate attack that injects chaotic transformations into the reasoning chain. The H-CoT paper never mentions Mousetrap and presents a different attack (hijacking CoT by injecting mocked execution-phase thoughts). The only 'chaotic' content is its observation of chaotic multilingual CoTs, which is not Mousetrap, so the paper neither supports nor contradicts the claim."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "rationale": "The cited paper does not mention an attack called \"Mousetrap\". Instead, it introduces a different adversarial attack method called Hijacking Chain-of-Thought (H-CoT)."
+   }
+  }
+ },
+ {
+  "item_id": "arxiv/2609.22917/original",
+  "claim": "Prior work shows that retrieving even three structurally similar examples raises execution accuracy by 10--20 percentage points on standard benchmarks [CITATION].",
+  "citing": {
+   "arxiv_id": "2609.22917",
+   "title": "An Iterative LangGraph Agent for Text-to-SQL: Natural Language Access to the Chicago Crime Database"
+  },
+  "cited": {
+   "arxiv_id": "2304.13301",
+   "title": "Prompting GPT-3.5 for Text-to-SQL with De-semanticization and Skeleton Retrieval"
+  },
+  "reads": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "rationale": "The paper retrieves k=8 skeleton-based examples and its ablation compares the full method with a random-demonstration baseline. It never tests three retrieved examples and never reports a 10-20 point gain from retrieval. The ablation drop on Spider (87.8 to 66.9 EX) comes from removing retrieval entirely, not from using three examples, so the specific claim is not supported or contradicted."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "For hyperparameter settings, we assign k=8, \\alpha=0.9, \\beta=0.5, \\tau=0.6, and \\theta=0.4.",
+    "page": 8,
+    "rationale": "The cited paper shows that retrieving eight structurally similar examples (k=8) raises execution accuracy by approximately 15 to 22 percentage points compared to the baseline without skeleton retrieval. However, it does not evaluate or mention the performance impact of retrieving specifically three examples."
+   }
+  }
+ },
+ {
+  "item_id": "arxiv/2609.23716/original",
+  "claim": "A minor variance in the initial output can be magnified as it passes through the evaluator and optimizer LLMs, a form of cascading variance [CITATION].",
+  "citing": {
+   "arxiv_id": "2609.23716",
+   "title": "STEVE: Stabilizing Textual Gradient-Based Prompt Optimization via Error-Driven Refinement and Regularized Verification"
+  },
+  "cited": {
+   "arxiv_id": "2207.10342",
+   "title": "Language Model Cascades"
+  },
+  "reads": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "rationale": "The paper formalizes chains of LMs as probabilistic programs (\"language model cascades\") and never discusses variance in an initial output being magnified through later LLM stages. The sentence uses \"cascading variance\" in a different sense, so the paper neither supports nor contradicts the claim."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "rationale": "The cited paper introduces the concept of \"language model cascades\" as a probabilistic programming framework for composing multiple interacting language models. However, it does not discuss \"cascading variance\" or the phenomenon of minor variances being magnified as they pass through multiple models."
+   }
+  }
+ },
+ {
+  "item_id": "arxiv/2609.23314/original",
+  "claim": "We evaluate models that natively support chain-of-thought reasoning, specifically those trained with reasoning supervision or explicit thinking-token mechanisms [CITATION].",
+  "citing": {
+   "arxiv_id": "2609.23314",
+   "title": "ValueDiff: Value-Geometric KV Cache Eviction for Sink-Suppressed LLMs"
+  },
+  "cited": {
+   "arxiv_id": "2408.00118",
+   "title": "Gemma 2: Improving Open Language Models at a Practical Size"
+  },
+  "reads": {
+   "anthropic/claude-sonnet-5.5": {
+    "verdict": "contradicts",
+    "quote": "We also train the 2B and 9B models with knowledge distillation (Hinton et al., 2015) instead of next token prediction.",
+    "page": 1,
+    "rationale": "The sentence cites Gemma 2 as an example of a model with native chain-of-thought reasoning, trained with reasoning supervision or explicit thinking tokens. Gemma 2 is a standard decoder-only LLM trained with knowledge distillation and ordinary SFT/RLHF. It has no thinking-token mechanism or reasoning-specific supervision. The paper only mentions CoT as a few-shot evaluation setting for BBH."
+   },
+   "google/gemini-3.1-pro-preview": {
+    "verdict": "not_enough_info",
+    "quote": "",
+    "page": 0,
+    "rationale": "The cited paper introduces Gemma 2 and describes its training processes, which include knowledge distillation, supervised fine-tuning (SFT) on synthetic and human-generated data, and reinforcement learning from human feedback (RLHF). However, it does not mention training with \"reasoning supervision\" or \"explicit thinking-token mechanisms,\" nor does it discuss natively supporting chain-of-thought reasoning in those specific terms. Thus, there is not enough information to support the claim."
+   }
+  }
+ }
+]

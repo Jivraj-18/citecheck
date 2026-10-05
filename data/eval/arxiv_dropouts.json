@@ -1,0 +1,14 @@
+{
+ "papers_considered": 169,
+ "kept": 150,
+ "dropped": {
+  "no_resolvable_claim": 13,
+  "no_swap_candidate": 3,
+  "no_citation_pairs": 1,
+  "no_tex": 2
+ },
+ "kept_by_listing": {
+  "cs.CL": 82,
+  "cs.LG": 68
+ }
+}

@@ -1,0 +1,257 @@
+{
+ "generated": "2026-10-05T15:03:42.265133+00:00",
+ "models": [
+  {
+   "model": "anthropic/claude-sonnet-5.5",
+   "errors": 0,
+   "calls": 598,
+   "refusals": 2,
+   "refusals_by_dataset": {
+    "scifact": 2
+   },
+   "scifact": {
+    "n": 300,
+    "accuracy": 0.8333333333333334,
+    "accuracy_ci": [
+     0.79,
+     0.87
+    ],
+    "answered_accuracy": 0.8389261744966443,
+    "macro_f1": 0.8310649366167581
+   },
+   "arxiv": {
+    "n": 300,
+    "accuracy": 0.89,
+    "accuracy_ci": [
+     0.8533333333333334,
+     0.9233333333333333
+    ],
+    "answered_accuracy": 0.89
+   },
+   "cost_per_1000_usd": 3.4562608695652175,
+   "name": "Anthropic: Claude Sonnet 5.5",
+   "price_per_million": {
+    "input": 2.0,
+    "output": 10.0
+   },
+   "cost_per_manuscript_usd": 0.044931391304347826
+  },
+  {
+   "model": "anthropic/claude-haiku-4.5",
+   "errors": 0,
+   "calls": 600,
+   "refusals": 0,
+   "refusals_by_dataset": {},
+   "scifact": {
+    "n": 300,
+    "accuracy": 0.8333333333333334,
+    "accuracy_ci": [
+     0.79,
+     0.8733333333333333
+    ],
+    "answered_accuracy": 0.8333333333333334,
+    "macro_f1": 0.8308590349793473
+   },
+   "arxiv": {
+    "n": 300,
+    "accuracy": 0.87,
+    "accuracy_ci": [
+     0.83,
+     0.9066666666666666
+    ],
+    "answered_accuracy": 0.87
+   },
+   "cost_per_1000_usd": 1.3564333333333334,
+   "name": "Anthropic: Claude Haiku 4.5",
+   "price_per_million": {
+    "input": 1.0,
+    "output": 5.0
+   },
+   "cost_per_manuscript_usd": 0.017633633333333336
+  },
+  {
+   "model": "google/gemini-3.1-pro-preview",
+   "errors": 0,
+   "calls": 600,
+   "refusals": 0,
+   "refusals_by_dataset": {},
+   "scifact": {
+    "n": 300,
+    "accuracy": 0.8866666666666667,
+    "accuracy_ci": [
+     0.85,
+     0.92
+    ],
+    "answered_accuracy": 0.8866666666666667,
+    "macro_f1": 0.8859768006785157
+   },
+   "arxiv": {
+    "n": 300,
+    "accuracy": 0.81,
+    "accuracy_ci": [
+     0.7666666666666667,
+     0.8533333333333334
+    ],
+    "answered_accuracy": 0.81
+   },
+   "cost_per_1000_usd": 5.073996666666667,
+   "name": "Google: Gemini 3.1 Pro Preview",
+   "price_per_million": {
+    "input": 2.0,
+    "output": 12.0
+   },
+   "cost_per_manuscript_usd": 0.06596195666666667
+  },
+  {
+   "model": "google/gemini-3.8-flash",
+   "errors": 0,
+   "calls": 600,
+   "refusals": 0,
+   "refusals_by_dataset": {},
+   "scifact": {
+    "n": 300,
+    "accuracy": 0.87,
+    "accuracy_ci": [
+     0.83,
+     0.9066666666666666
+    ],
+    "answered_accuracy": 0.87,
+    "macro_f1": 0.8703673660682097
+   },
+   "arxiv": {
+    "n": 300,
+    "accuracy": 0.8066666666666666,
+    "accuracy_ci": [
+     0.76,
+     0.85
+    ],
+    "answered_accuracy": 0.8066666666666666
+   },
+   "cost_per_1000_usd": 1.3667049999999998,
+   "name": "Google: Gemini 3.8 Flash",
+   "price_per_million": {
+    "input": 0.75,
+    "output": 3.75
+   },
+   "cost_per_manuscript_usd": 0.017767164999999998
+  }
+ ],
+ "pareto_frontier_scifact": [
+  "anthropic/claude-haiku-4.5",
+  "google/gemini-3.8-flash",
+  "google/gemini-3.1-pro-preview"
+ ],
+ "pareto_frontier_arxiv": [
+  "anthropic/claude-haiku-4.5",
+  "anthropic/claude-sonnet-5.5"
+ ],
+ "recommendation": {
+  "scifact": {
+   "model": "google/gemini-3.8-flash",
+   "best_model": "google/gemini-3.1-pro-preview",
+   "accuracy": 0.87,
+   "best_accuracy": 0.8866666666666667,
+   "cost_per_1000_usd": 1.3667049999999998,
+   "best_cost_per_1000_usd": 5.073996666666667,
+   "tolerance": 0.02,
+   "dataset": "scifact",
+   "name": "Google: Gemini 3.8 Flash",
+   "best_name": "Google: Gemini 3.1 Pro Preview",
+   "cost_per_manuscript_usd": 0.017767164999999998,
+   "best_cost_per_manuscript_usd": 0.06596195666666667,
+   "within_margin_of_error": true
+  },
+  "arxiv": {
+   "model": "anthropic/claude-haiku-4.5",
+   "best_model": "anthropic/claude-sonnet-5.5",
+   "accuracy": 0.87,
+   "best_accuracy": 0.89,
+   "cost_per_1000_usd": 1.3564333333333334,
+   "best_cost_per_1000_usd": 3.4562608695652175,
+   "tolerance": 0.02,
+   "dataset": "arxiv",
+   "name": "Anthropic: Claude Haiku 4.5",
+   "best_name": "Anthropic: Claude Sonnet 5.5",
+   "cost_per_manuscript_usd": 0.017633633333333336,
+   "best_cost_per_manuscript_usd": 0.044931391304347826,
+   "within_margin_of_error": true
+  }
+ },
+ "leading_family_differs_by_dataset": true,
+ "excluded_models": {
+  "openai/gpt-6.1-sol": "no API access during this run",
+  "openai/gpt-6-luna": "no API access during this run",
+  "openai/gpt-6-astra": "cost, $10/$50 per 1M tokens",
+  "anthropic/claude-fable-5.1": "cost, $10/$50 per 1M tokens",
+  "anthropic/claude-opus-5.5": "not included in this run"
+ },
+ "datasets": {
+  "scifact": {
+   "n": 300,
+   "labels": {
+    "supports": 100,
+    "contradicts": 100,
+    "not_enough_info": 100
+   }
+  },
+  "arxiv": {
+   "papers": 150,
+   "items": 300,
+   "dropouts": {
+    "papers_considered": 169,
+    "kept": 150,
+    "dropped": {
+     "no_resolvable_claim": 13,
+     "no_swap_candidate": 3,
+     "no_citation_pairs": 1,
+     "no_tex": 2
+    },
+    "kept_by_listing": {
+     "cs.CL": 82,
+     "cs.LG": 68
+    }
+   },
+   "citations_per_paper_median": 13.0
+  }
+ },
+ "abstract_enough": {
+  "originals": 150,
+  "decided_from_abstract": 99,
+  "share": 0.66
+ },
+ "dataprep_checks": {
+  "checker": "gemini-3.8-flash",
+  "extraction_checked": 20,
+  "extraction_faithful": 20,
+  "citation_position_correct": 20,
+  "resolution_checked": 50,
+  "resolution_same_work": 49
+ },
+ "verification": {
+  "panel": [
+   "anthropic/claude-sonnet-5.5",
+   "anthropic/claude-haiku-4.5",
+   "google/gemini-3.1-pro-preview",
+   "google/gemini-3.8-flash"
+  ],
+  "min_votes": 3,
+  "pdf_readers": [
+   "anthropic/claude-sonnet-5.5",
+   "google/gemini-3.1-pro-preview"
+  ],
+  "fleiss_kappa": 0.6649854093724571,
+  "kappa_items": 300,
+  "flagged_originals": 38,
+  "pdf_read": 38,
+  "full_text_overturned_to_supported": 18,
+  "confirmed_unsupported": 14,
+  "confirmed_by_category": {
+   "specific_claim_unsupported": 6,
+   "conventional_or_background": 2,
+   "describes_citing_work": 1,
+   "disagreement": 5
+  },
+  "possible_label_noise_swapped": 1
+ },
+ "total_spend_usd": 13.575902
+}

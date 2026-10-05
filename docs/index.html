@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Can AI Check Citations?</title>
+<meta name="description" content="Which LLM can tell whether a citation supports the claim it is attached to, how reliably, and at what cost per manuscript.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="story">
+
+<header class="hero">
+  <p class="kicker">A data story about citations, LLMs and cost</p>
+  <h1>Can an AI model tell whether a citation supports its claim?</h1>
+  <p class="dek" id="answer">
+    On expert-labelled biomedical claims, <strong data-bind="recommendation.scifact.name" data-format="name"></strong>
+    came within <span data-bind="recommendation.scifact.tolerance" data-format="points"></span> of the highest-scoring
+    model in our test (<span data-bind="recommendation.scifact.best_name" data-format="name"></span>)<span
+    data-show="recommendation.scifact.within_margin_of_error">, a gap within the margin of error,</span> at
+    <strong data-bind="recommendation.scifact.cost_per_1000_usd" data-format="usd"></strong> per 1,000 checks.
+    On machine-learning citations (real ones, and the same sentences with a wrong reference swapped in),
+    <strong data-bind="recommendation.arxiv.name" data-format="name"></strong>
+    came within <span data-bind="recommendation.arxiv.tolerance" data-format="points"></span> of the highest scorer,
+    <span data-bind="recommendation.arxiv.best_name" data-format="name"></span><span
+    data-show="recommendation.arxiv.within_margin_of_error"> (again within the margin of error)</span>, at
+    <strong data-bind="recommendation.arxiv.cost_per_1000_usd" data-format="usd"></strong> per 1,000 checks,
+    about <strong data-bind="recommendation.arxiv.cost_per_manuscript_usd" data-format="usd"></strong> to screen
+    a typical paper.
+    <span data-show="leading_family_differs_by_dataset">The top scorer came from a different model family on each
+    kind of citation.</span>
+  </p>
+</header>
+
+<section>
+  <h2>Fake references are already being counted. Wrong citations are not.</h2>
+  <p>
+    Language models make up references, and audits now count them at scale: a 2026 audit of
+    2.5 million biomedical papers found fabricated references rising about six-fold in two years
+    (<a href="https://appliedsymbioticintelligence.substack.com/p/six-times-the-rate-how-ai-is-corrupting">summary</a>),
+    and <a href="https://arxiv.org/abs/2607.00738">Phantom References</a> found them in roughly 1 in 20
+    accepted NeurIPS 2025 papers.
+  </p>
+  <p>
+    Those checks ask whether a reference <em>exists</em>. They cannot catch a real paper cited for something
+    it never said. That needs a reader, and the question for anyone screening manuscripts is whether a model
+    can be that reader: which one, how often it is right, and what it costs.
+  </p>
+</section>
+
+<section>
+  <h2>Accuracy against cost</h2>
+  <p>
+    Each model judged <span data-bind="datasets.scifact.n" data-format="int"></span> expert-labelled claims
+    from SciFact (supports, contradicts, or not enough information, judged from the cited abstract) and
+    <span data-bind="datasets.arxiv.items" data-format="int"></span> citations from
+    <span data-bind="datasets.arxiv.papers" data-format="int"></span> recent arXiv machine-learning papers:
+    each real citation, and the same sentence with a different reference from the same paper swapped in.
+    Points on the line are the best accuracy available at their price.
+  </p>
+  <div class="charts">
+    <figure class="chart-card">
+      <figcaption>
+        <strong>Expert-labelled claims (SciFact)</strong>
+        <span>Accuracy, 3 classes, with 95% bootstrap intervals</span>
+      </figcaption>
+      <div class="chart" id="chart-scifact" role="img"></div>
+    </figure>
+    <figure class="chart-card">
+      <figcaption>
+        <strong>Real vs. swapped arXiv citations</strong>
+        <span>Accuracy, supported vs. not, with 95% bootstrap intervals</span>
+      </figcaption>
+      <div class="chart" id="chart-arxiv" role="img"></div>
+    </figure>
+  </div>
+  <div class="legend" id="legend" aria-hidden="true"></div>
+  <p class="chart-summary" id="chart-summary"></p>
+  <p class="note" id="refusal-note" hidden></p>
+  <p class="note">
+    Not tested: <span data-bind="excluded_models" data-format="excluded"></span>.
+  </p>
+
+  <details class="table-view" open>
+    <summary>All numbers, per model</summary>
+    <div class="table-scroll">
+      <table id="model-table">
+        <thead><tr>
+          <th scope="col">Model</th>
+                    <th scope="col" class="num">SciFact accuracy</th>
+          <th scope="col" class="num">arXiv accuracy</th>
+          <th scope="col" class="num">Refusals</th>
+          <th scope="col" class="num">Cost per 1,000 checks</th>
+          <th scope="col" class="num">Cost per paper</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </details>
+</section>
+
+<section>
+  <h2>Is the abstract enough?</h2>
+  <p>
+    Abstracts are free and short; full papers are neither. For the real arXiv citations, every model
+    (<span data-bind="verification.panel" data-format="models"></span>) judged each one from the abstract.
+    Where at least <span data-bind="verification.min_votes" data-format="int"></span> of them said the paper
+    did not support the claim, <span data-bind="verification.pdf_readers.0" data-format="name2"></span> read the cited
+    paper in full; where it agreed, <span data-bind="verification.pdf_readers.1" data-format="name2"></span>, from the
+    other model family, read it too.
+  </p>
+  <div class="tiles">
+    <div class="tile">
+      <span class="tile-value" data-bind="abstract_enough.share" data-format="pct"></span>
+      <span class="tile-label">of real citations the panel could decide from the abstract alone</span>
+    </div>
+    <div class="tile">
+      <span class="tile-value"><span data-bind="verification.full_text_overturned_to_supported" data-format="int"></span>
+        of <span data-bind="verification.pdf_read" data-format="int"></span></span>
+      <span class="tile-label">flagged citations turned out to be supported once the full paper was read</span>
+    </div>
+    <div class="tile">
+      <span class="tile-value" data-bind="verification.fleiss_kappa" data-format="kappa"></span>
+      <span class="tile-label">agreement between the models (Fleiss' kappa;
+        1 is perfect, 0 is chance), over <span data-bind="verification.kappa_items" data-format="int"></span> citations</span>
+    </div>
+  </div>
+</section>
+
+<section id="examples-section">
+  <h2>Citations that did not hold up</h2>
+  <p>
+    <span data-bind="verification.confirmed_unsupported" data-format="int"></span> real citations were judged
+    not to support their sentence by two full-text readers from different model families. Not all of those are
+    errors, so both models also classified each case:
+    <span data-bind="verification.confirmed_by_category.specific_claim_unsupported" data-format="int"></span>
+    attribute a specific claim the cited paper does not make,
+    <span data-bind="verification.confirmed_by_category.conventional_or_background" data-format="int"></span>
+    are conventional or background citations,
+    <span data-bind="verification.confirmed_by_category.describes_citing_work" data-format="int"></span>
+    describe the citing authors' own work, and the models disagreed on
+    <span data-bind="verification.confirmed_by_category.disagreement" data-format="int"></span>.
+    The examples below come only from the first group. They are model judgments, not expert review, and say
+    nothing about how common such citations are.
+  </p>
+  <div id="examples"></div>
+</section>
+
+<section>
+  <h2>How we checked</h2>
+  <ul>
+    <li><strong>SciFact</strong> (Allen AI, <a href="https://github.com/allenai/scifact">CC BY-NC 2.0</a>):
+      expert-written claims derived from citation sentences, each paired with a cited abstract and an expert label.
+      We sampled <span data-bind="datasets.scifact.labels.supports" data-format="int"></span> claim–abstract items
+      labelled supports, <span data-bind="datasets.scifact.labels.contradicts" data-format="int"></span> labelled
+      contradicts, and <span data-bind="datasets.scifact.labels.not_enough_info" data-format="int"></span> labelled
+      not enough information.</li>
+    <li><strong>arXiv</strong>: recent cs.LG and cs.CL papers. A parser extracted sentences that cite exactly one
+      reference; references were matched to arXiv records. One real and one swapped item per paper.</li>
+    <li><strong>Models</strong> were called through each provider's API with identical prompts and structured
+      output. Costs are list prices applied to the tokens each call reported, counting reasoning tokens.</li>
+    <li><strong>Verification</strong> was done by models, not people: agreement across all models, then
+      full-text reads by two models from different families.</li>
+    <li><strong>Data preparation</strong> was spot-checked by a model as well: of
+      <span data-bind="dataprep_checks.extraction_checked" data-format="int"></span> extracted sentences compared
+      with their LaTeX source, <span data-bind="dataprep_checks.extraction_faithful" data-format="int"></span> were
+      faithful; of <span data-bind="dataprep_checks.resolution_checked" data-format="int"></span> matched references,
+      <span data-bind="dataprep_checks.resolution_same_work" data-format="int"></span> were the same work as the
+      bibliography entry.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>What this does not show</h2>
+  <ul>
+    <li>How common unsupported citations are. The sample was not designed to measure that.</li>
+    <li>Expert-level verification of the arXiv examples. They were checked by models reading full text.</li>
+    <li>That results transfer across fields. SciFact is biomedical; the arXiv set is machine learning.
+      They are reported separately.</li>
+    <li>Performance on real mistakes. Swapped citations are easier to catch than the subtle errors
+      authors actually make.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Code, evaluation data, and every model verdict: <a href="https://github.com/Jivraj-18/citecheck">reproduce it from the repository</a>.
+    Generated <span data-bind="generated" data-format="date"></span>.</p>
+</footer>
+
+</main>
+<div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="story.js"></script>
+</body>
+</html>

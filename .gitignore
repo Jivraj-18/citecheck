@@ -1,0 +1,14 @@
+cache/
+*.egg-info
+.env
+__pycache__/
+*.py[oc]
+.pytest_cache/
+results/screenshots/
+.venv/
+
+# agent working notes (local only)
+AGENTS.md
+CLAUDE.md
+# pilot run (subset of results/verdicts.jsonl)
+results/verdicts_pilot.jsonl
